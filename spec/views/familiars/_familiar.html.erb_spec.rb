@@ -1,0 +1,12 @@
+require 'spec_helper'
+
+describe 'familiars/_familiar.html.erb' do
+  let(:familiar){ stub_model Familiar }
+  before do
+    render familiar
+  end
+
+  subject{ rendered }
+  it{ should have_selector 'td.name' }
+  it{ should have_selector 'td.median' }
+end

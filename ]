@@ -1,0 +1,12 @@
+require 'spec_helper'
+
+describe 'sales/_form.html.erb' do
+  let(:sale){ stub_model(Sale).as_new_record }
+  before{ render 'sales/form', sale:sale }
+  let(:rendering){ Capybara.string(rendered)}
+
+  describe 'Unit' do
+    subject{ rendering }
+    it{ should have_select 'Unit', with_options:['Hearts Blood', 'Mandrake'], selected:'Hearts Blood' }
+  end
+end

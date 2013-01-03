@@ -1,0 +1,34 @@
+<% present @familiar do |presenter| %>
+
+<%= title @familiar.name %>
+<%= presenter.median(:div) %>
+<%= presenter.new_sale(@sale) %>
+
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+  $(function(){
+    new Highcharts.Chart({
+      chart: {
+        renderTo: "container",
+        type: 'column'
+      },
+      title: {
+        text: "Mandrake"
+      },
+      xAxis: {
+        categories:<%= @hash.keys.sort %>
+      },
+      yAxis: {
+        title: {
+          text: "min"
+        }
+      },
+      series: [{
+        data: <%= @hash.keys.sort.map{|e| @hash[e]} %>,
+      }],
+    });
+  });
+</script>
+
+<div id="container" style="width:560px; height:300px;"></div>

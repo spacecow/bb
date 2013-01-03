@@ -1,0 +1,17 @@
+en:
+  familiar:
+    one: Familiar
+    other: Familiars
+  sale:
+    one: Sale
+
+  labels:
+    new: New %{o}
+
+  simple_form:
+    labels:
+      sale:
+        familiar_token: Familiar
+
+  successes:
+    created: '%{o} created'
