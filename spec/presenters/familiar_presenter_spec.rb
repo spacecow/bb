@@ -6,21 +6,19 @@ describe FamiliarPresenter do
 
   describe ".sales" do
     context "without sales" do
-      before{ familiar.should_receive(:sales).and_return [] }
-      let(:rendered){ Capybara.string(presenter.sales) }
-      subject{ rendered }
+      before{ familiar.should_receive(:done_sales).and_return [] }
+      subject{ Capybara.string(presenter.sales) }
       its(:text){ should be_blank }
     end
 
     context "with sales" do
       let(:sales){ [stub_model(Sale)] }
       before do
-        familiar.should_receive(:sales).and_return sales
-        controller.stub(:current_user){ nil }
+        familiar.should_receive(:done_sales).and_return sales
+        view.should_receive(:render).and_return nil
       end
-      let(:rendered){ Capybara.string(presenter.sales)}  
-      subject{ rendered }
-      it{ should have_selector 'tr.sale', count:1}
+
+      specify{ Capybara.string presenter.sales }  
     end
   end
 

@@ -5,6 +5,12 @@ class Familiar < ActiveRecord::Base
 
   validates :name, presence:true, uniqueness:true
 
+  def done_sales
+    arr = sales
+    arr.pop if arr.last and arr.last.new_record?
+    arr 
+  end
+
   def median
     sorted = regulated_sale_values.sort    
     sorted[sorted.count/2]
@@ -13,9 +19,9 @@ class Familiar < ActiveRecord::Base
   def regulated_sale_values
     sales.map(&:regulated_value)
   end
-  def regulated_sale_values_freq
+  def regulated_sale_values_freq(delete_last=true)
     arr = regulated_sale_values
-    arr.pop
+    arr.pop if delete_last
     arr.frequency
   end
 

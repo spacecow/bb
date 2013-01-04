@@ -4,6 +4,20 @@ describe SalePresenter do
   let(:sale){ mock_model Sale }
   let(:presenter){ SalePresenter.new(sale,view) }
 
+  describe "#sales" do
+    context "without sales" do
+      subject{ Capybara.string(presenter.sales([])) }
+      its(:text){ should be_blank }
+    end
+
+    context "with sales" do
+      before{ controller.stub(:current_user){ nil }}
+      let(:sales){[stub_model(Sale)]} 
+      subject{ Capybara.string(presenter.sales sales)}
+      it{ should have_selector 'tr.sale', count:1}
+    end
+  end
+
   describe ".value" do
     before{ sale.should_receive(:value).and_return 40.00 }
     subject{ Capybara.string(presenter.value)}

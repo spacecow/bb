@@ -4,6 +4,7 @@ en:
     other: Familiars
   sale:
     one: Sale
+    other: Sales
 
   labels:
     new: New %{o}

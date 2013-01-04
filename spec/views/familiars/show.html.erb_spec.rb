@@ -16,5 +16,5 @@ describe 'familiars/show' do
   it{ should have_selector 'div.median' }
   it{ should have_selector 'div.sale.new' }
   it{ should have_selector 'div#container' }
-  it{ should have_selector 'table.sales' }
+  it{ should have_selector 'div.sales' }
 end

@@ -1,6 +1,12 @@
 class SalePresenter < BasePresenter
   presents :sale
 
+  def sales(sales)
+    h.content_tag :table, class:'sales' do
+      h.render sales
+    end
+  end
+
   def actions
     h.content_tag :td, class:'actions' do
       delete_link
