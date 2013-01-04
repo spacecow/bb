@@ -3,6 +3,6 @@ class Ability
 
   def initialize(user)
     can [:show,:index,:create], Familiar
-    can :create, Sale
+    can [:create,:destroy], Sale
   end
 end

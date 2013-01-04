@@ -3,20 +3,19 @@ class FamiliarPresenter < BasePresenter
 
   def familiars(familiars)
     h.content_tag :table, class:'familiars' do
-      h.render familiars if familiars.present?
+      h.render familiars
     end
-  end
-
-  def new
-    h.render 'familiars/new', familiar:Familiar.new
   end
 
   def form
     h.render('familiars/form', familiar:familiar)
   end
 
-  def new_sale(sale)
-    h.render 'sales/new', sale:sale
+  def median(tag) 
+    h.content_tag tag, class:'median' do
+      (tag == :div ? "Median: " : "") +
+      familiar.median.to_s
+    end
   end
 
   def name
@@ -25,10 +24,17 @@ class FamiliarPresenter < BasePresenter
     end
   end
 
-  def median(tag) 
-    h.content_tag tag, class:'median' do
-      (tag == :div ? "Median: " : "") +
-      familiar.median.to_s
+  def new
+    h.render 'familiars/new', familiar:Familiar.new
+  end
+
+  def new_sale(sale)
+    h.render 'sales/new', sale:sale
+  end
+
+  def sales
+    h.content_tag :table, class:'sales' do
+      h.render familiar.sales
     end
   end
 end

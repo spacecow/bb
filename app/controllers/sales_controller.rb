@@ -12,8 +12,15 @@ class SalesController < ApplicationController
         render 'familiars/index'
       else
         @familiar = @sale.familiar
+        @hash = @familiar.regulated_sale_values_freq
         render 'familiars/show' 
       end
     end
+  end
+
+  def destroy
+    familiar = @sale.familiar
+    @sale.destroy
+    redirect_to familiar, notice:deleted(:sale)
   end
 end

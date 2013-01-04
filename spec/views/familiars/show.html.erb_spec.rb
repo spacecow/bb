@@ -15,4 +15,6 @@ describe 'familiars/show' do
   it{ should have_selector 'h1', text:'Odin' }
   it{ should have_selector 'div.median' }
   it{ should have_selector 'div.sale.new' }
+  it{ should have_selector 'div#container' }
+  it{ should have_selector 'table.sales' }
 end

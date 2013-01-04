@@ -1,8 +1,28 @@
 require 'spec_helper'
 
 describe FamiliarPresenter do
-  let(:familiar){ Familiar.new }
+  let(:familiar){ mock_model(Familiar).as_new_record }
   let(:presenter){ FamiliarPresenter.new(familiar,view) }
+
+  describe ".sales" do
+    context "without sales" do
+      before{ familiar.should_receive(:sales).and_return [] }
+      let(:rendered){ Capybara.string(presenter.sales) }
+      subject{ rendered }
+      its(:text){ should be_blank }
+    end
+
+    context "with sales" do
+      let(:sales){ [stub_model(Sale)] }
+      before do
+        familiar.should_receive(:sales).and_return sales
+        controller.stub(:current_user){ nil }
+      end
+      let(:rendered){ Capybara.string(presenter.sales)}  
+      subject{ rendered }
+      it{ should have_selector 'tr.sale', count:1}
+    end
+  end
 
   describe "#familiars" do
     context "without familiars" do

@@ -9,9 +9,9 @@ describe Sale do
 
   describe '.regulated_value' do
     context 'in Hearts Blood' do
-      let(:sale){ stub_model Sale, unit_mask:0, value:20 }
+      let(:sale){ stub_model Sale, unit_mask:0, value:20.0 }
       subject{ sale.regulated_value }
-      it{ should eq 40 }
+      it{ should eq 40.0 }
     end
 
     context 'in Mandrake' do

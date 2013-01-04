@@ -1,6 +1,26 @@
 require 'spec_helper'
 
 describe SalesController do
+  describe "#delete" do
+    let(:sale){ create :sale }
+    before{ delete :destroy, id:sale.id }
+
+    describe Sale do
+      subject{ Sale }
+      its(:count){ should eq 0 }
+    end
+
+    describe "response" do
+      subject{ response }
+      it{ should redirect_to familiar_path(sale.familiar)}
+    end
+
+    describe "flash" do
+      subject{ flash }
+      its(:notice){ should eq 'Sale deleted' }
+    end
+  end
+
   describe "#create" do
     def send_post h={}
       post :create, sale:{familiar_token:h[:familiar], value:40, unit:'Mandrake'}
@@ -18,7 +38,7 @@ describe SalesController do
       describe "created sale" do
         subject{ Sale.last }
         its(:familiar_id){should be odin.id}
-        its(:value){ should be 40 }
+        its(:value){ should be_within(0.01).of(40.0) }
         its(:unit_mask){ should be 1 }
       end
 

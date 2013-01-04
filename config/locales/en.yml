@@ -8,6 +8,9 @@ en:
   labels:
     new: New %{o}
 
+  messages:
+    sure?: Are you sure?
+
   simple_form:
     labels:
       sale:
@@ -15,3 +18,4 @@ en:
 
   successes:
     created: '%{o} created'
+    deleted: '%{o} deleted'
