@@ -74,5 +74,40 @@ describe SalesController do
         it{ should render_template :index }
       end
     end
+  end # #create
+
+  describe "#update" do
+    def send_put(h={})
+      put :update, id:sale.id, sale:{value:h[:value]}
+    end
+
+    let(:sale){ create :sale }
+    context "update" do
+      before{ send_put value:19 }
+
+      context "updated sale" do
+        subject{ Sale.last }
+        its(:value){ should eq 19 }
+      end
+
+      context "response" do
+        subject{ response }
+        it{ should redirect_to familiar_path(sale.familiar) }
+      end
+
+      context "flash" do
+        subject{ flash }
+        its(:notice){ should eq 'Sale updated' }
+      end
+    end
+
+    context "error" do
+      before{ send_put value:0 }
+
+      context "response" do
+        subject{ response }
+        it{ should render_template :edit }
+      end
+    end
   end
 end

@@ -34,10 +34,16 @@ describe SalePresenter do
     before{ controller.stub(:current_user){ nil }}
     let(:rendered){ Capybara.string(presenter.actions)}
     subject{ rendered }
-    its(:text){ should eq 'Delete' }
+    its(:text){ should eq 'Edit Delete' }
+
+    context "edit link" do
+      subject{ rendered.all('a')[0] }
+      its(:text){ should eq 'Edit' } 
+      specify{ subject[:href].should eq edit_sale_path(sale) }
+    end
 
     context "delete link" do
-      subject{ rendered.find('a') }
+      subject{ rendered.all('a')[1] }
       its(:text){ should eq 'Delete' } 
       specify{ subject[:href].should eq sale_path(sale) }
       specify{ subject['data-method'].should eq "delete" }

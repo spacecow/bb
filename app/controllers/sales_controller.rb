@@ -18,6 +18,14 @@ class SalesController < ApplicationController
     end
   end
 
+  def update
+    if @sale.update_attributes(params[:sale])
+      redirect_to @sale.familiar, notice:updated(:sale)
+    else
+      render :edit
+    end
+  end
+
   def destroy
     familiar = @sale.familiar
     @sale.destroy
