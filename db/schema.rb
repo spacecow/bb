@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130105032821) do
+ActiveRecord::Schema.define(:version => 20130105072925) do
 
   create_table "familiars", :force => true do |t|
     t.string   "name"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20130105032821) do
     t.integer  "unit_mask"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "note"
   end
 
 end

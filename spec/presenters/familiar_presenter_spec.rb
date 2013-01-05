@@ -33,6 +33,7 @@ describe FamiliarPresenter do
       let(:familiars){ [stub_model(Familiar)] } 
       let(:rendered){ Capybara.string(presenter.familiars familiars)}
       subject{ rendered }
+      it{ should have_selector 'tr th', count:3}
       it{ should have_selector 'tr.familiar', count:1}
     end
   end

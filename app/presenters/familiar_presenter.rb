@@ -3,7 +3,8 @@ class FamiliarPresenter < BasePresenter
 
   def familiars(familiars)
     h.content_tag :table, class:'familiars' do
-      h.render familiars
+      h.render('familiars/header') +
+      h.render(familiars) if familiars.present?
     end
   end
 
