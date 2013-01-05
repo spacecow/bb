@@ -1,5 +1,5 @@
 class Sale < ActiveRecord::Base
-  belongs_to :familiar
+  belongs_to :familiar, counter_cache:true
 
   attr_accessor :familiar_token
   attr_accessible :familiar_token, :value, :unit

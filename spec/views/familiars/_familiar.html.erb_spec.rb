@@ -9,4 +9,5 @@ describe 'familiars/_familiar.html.erb' do
   subject{ rendered }
   it{ should have_selector 'td.name' }
   it{ should have_selector 'td.median' }
+  it{ should have_selector 'td.sales_count' }
 end

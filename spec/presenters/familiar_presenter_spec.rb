@@ -56,4 +56,12 @@ describe FamiliarPresenter do
       its(:text){ should eq 'Median: 40' }
     end
   end
+
+  describe ".sales_count" do
+    context "without sales" do
+      before{ familiar.should_receive(:sales_count).and_return 0 }
+      subject{ Capybara.string(presenter.sales_count) }
+      its(:text){ should eq "0" }
+    end
+  end
 end
