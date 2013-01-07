@@ -19,13 +19,13 @@ describe SalePresenter do
   end
 
   describe ".value" do
-    before{ sale.should_receive(:value).and_return 40.00 }
+    before{ sale.should_receive(:regulated_value).and_return 40.00 }
     subject{ Capybara.string(presenter.value)}
     its(:text){ should eq '40.0' }
   end
 
   describe ".unit" do
-    before{ sale.should_receive(:unit).and_return "Mandrake" }
+    before{ sale.should_not_receive(:unit) }
     subject{ Capybara.string(presenter.unit)}
     its(:text){ should eq 'Mandrake' }
   end

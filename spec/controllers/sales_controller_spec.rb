@@ -57,12 +57,17 @@ describe SalesController do
       end
     end
 
-    context "create with new familiar" do
+    context "create with new familiar", focus:true do
       before{ send_post familiar:'<<<Odin>>>'}
 
       describe Sale do
         subject{ Sale }
         its(:count){ should be 1 }
+      end
+
+      describe "created familiar" do
+        subject{ Familiar.last }
+        it do p subject end
       end
     end
 

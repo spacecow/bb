@@ -18,7 +18,7 @@ class SalePresenter < BasePresenter
   end
 
   def value
-    value = sale.value
+    value = sale.regulated_value
     h.content_tag :td, class:'value' do
       ((value * 10).to_i/10.0).to_s unless value.nil?
     end
@@ -26,7 +26,7 @@ class SalePresenter < BasePresenter
 
   def unit
     h.content_tag :td, class:'unit' do
-      sale.unit
+      "Mandrake"
     end
   end
 end

@@ -7,14 +7,14 @@ describe 'sales/_form.html.erb' do
 
   describe 'default unit' do
     before{ render 'sales/form', sale:sale }
-    it{ should have_select 'Unit', with_options:['Hearts Blood', 'Mandrake'], selected:'Hearts Blood' }
+    it{ should have_select 'Unit', with_options:['Hearts Blood', 'Mandrake'], selected:'Mandrake' }
   end
 
   describe 'preferred unit' do
     before do
-      session[:preferred_unit] = 'Mandrake'
+      session[:preferred_unit] = 'Hearts Blood'
       render 'sales/form', sale:sale
     end
-    it{ should have_select 'Unit', with_options:['Hearts Blood', 'Mandrake'], selected:'Mandrake' }
+    it{ should have_select 'Unit', with_options:['Hearts Blood', 'Mandrake'], selected:'Hearts Blood' }
   end
 end

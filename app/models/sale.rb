@@ -16,7 +16,7 @@ class Sale < ActiveRecord::Base
   end
 
   def regulated_value
-    WEIGHT[unit_mask]*value
+    WEIGHT[unit_mask]*value if value
   end
 
   def unit=(s)

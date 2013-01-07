@@ -6,6 +6,7 @@ gem 'jquery-rails'
 gem 'cancan'
 gem 'simple_form'
 gem 'libv8', '~> 3.11.8'
+gem 'carrierwave'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

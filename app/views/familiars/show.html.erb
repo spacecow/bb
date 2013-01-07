@@ -1,6 +1,7 @@
 <% present @familiar do |presenter| %>
 
 <%= title @familiar.name %>
+<%= image_tag @familiar.image_url if @familiar.image %>
 <%= presenter.median(:div) %>
 <%= presenter.new_sale(@sale) %>
 <%= presenter.sales %>

@@ -1,7 +1,10 @@
+require 'nokogiri'
+
 class Familiar < ActiveRecord::Base
   has_many :sales
 
-  attr_accessible :name
+  attr_accessible :name, :remote_image_url
+  mount_uploader :image, ImageUploader
 
   validates :name, presence:true, uniqueness:true
 
@@ -27,7 +30,17 @@ class Familiar < ActiveRecord::Base
 
   class << self
     def id_from_token(token)
-      token.gsub!(/<<<(.+?)>>>/){ create!(name:$1).id}
+      if token =~ /<<<(.+?)>>>/
+        familiar = new(name:$1)
+        unless Rails.env.test?
+          url = "http://bloodbrothersgame.wikia.com/wiki/#{$1}"
+          doc = Nokogiri::HTML(open(url))
+          image_url = doc.at_css("table.infobox img").attribute('src').value
+          familiar.remote_image_url = image_url
+        end
+        familiar.save
+        token.gsub!(/<<<(.+?)>>>/){ familiar.id } 
+      end
       token
     end
 
