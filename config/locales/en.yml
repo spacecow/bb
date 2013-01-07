@@ -20,3 +20,4 @@ en:
   successes:
     created: '%{o} created'
     deleted: '%{o} deleted'
+    updated: '%{o} updated'

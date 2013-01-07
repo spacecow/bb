@@ -2,5 +2,6 @@
   <%= f.input :familiar_token, input_html:{data:{pre:[sale.familiar], url:familiars_path(format: :json)}} %>
   <%= f.input :unit, as: :select, collection:Sale::UNITS, selected:preferred_unit %>
   <%= f.input :value %>
+  <%= f.input :note %>
   <%= f.button :submit %>
 <% end %>

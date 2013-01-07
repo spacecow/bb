@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20130107072744) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "image"
+    t.integer  "sales_count", :default => 0
   end
 
   create_table "sales", :force => true do |t|
@@ -26,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20130107072744) do
     t.integer  "unit_mask"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "note"
   end
 
 end

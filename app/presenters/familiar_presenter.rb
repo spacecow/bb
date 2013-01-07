@@ -39,4 +39,10 @@ class FamiliarPresenter < BasePresenter
       h.render 'sales/sales', sales:sales if sales.present?
     end
   end
+
+  def sales_count
+    h.content_tag :td, class:'sales_count' do
+      familiar.sales_count.to_s 
+    end
+  end
 end
