@@ -57,7 +57,7 @@ describe SalesController do
       end
     end
 
-    context "create with new familiar", focus:true do
+    context "create with new familiar" do
       before{ send_post familiar:'<<<Odin>>>'}
 
       describe Sale do

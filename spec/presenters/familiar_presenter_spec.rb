@@ -4,6 +4,21 @@ describe FamiliarPresenter do
   let(:familiar){ mock_model(Familiar).as_new_record }
   let(:presenter){ FamiliarPresenter.new(familiar,view) }
 
+  describe ".actions" do
+    let(:familiar){ mock_model(Familiar) }
+    let(:rendered){ Capybara.string(presenter.actions)}
+    subject{ rendered }
+    its(:text){ should eq 'Update' }
+
+    context "update link" do
+      subject{ rendered.find('a') }
+      its(:text){ should eq 'Update' } 
+      specify{ subject[:href].should eq familiar_path(familiar) }
+      specify{ subject['data-method'].should eq 'put'}
+    end
+    
+  end
+
   describe ".sales" do
     context "without sales" do
       before{ familiar.should_receive(:done_sales).and_return [] }
@@ -39,7 +54,8 @@ describe FamiliarPresenter do
 
   describe ".name" do
     before{ familiar.should_receive(:name).and_return 'odin' }
-    subject{ Capybara.string(presenter.name)}
+    let(:rendering){ Capybara.string(presenter.name)}
+    subject{ rendering }
     its(:text){ should eq 'odin' }
   end
 

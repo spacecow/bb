@@ -1,7 +1,7 @@
 require 'nokogiri'
 
 class Familiar < ActiveRecord::Base
-  has_many :sales
+  has_many :sales, dependent: :destroy
 
   attr_accessible :name, :remote_image_url
   mount_uploader :image, ImageUploader
@@ -26,6 +26,13 @@ class Familiar < ActiveRecord::Base
     arr = regulated_sale_values
     arr.pop if delete_last
     arr.frequency
+  end
+
+  def static_image_url
+    p "!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    url = "http://bloodbrothersgame.wikia.com/wiki/#{self.name}"
+    doc = Nokogiri::HTML(open(url))
+    image_url = doc.at_css("table.infobox img").attribute('src').value
   end
 
   class << self

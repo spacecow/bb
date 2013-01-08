@@ -1,6 +1,12 @@
 class FamiliarPresenter < BasePresenter
   presents :familiar
 
+  def actions
+    h.content_tag :td, class:'actions' do
+      h.link_to "Update", h.familiar_path(familiar), method: :put
+    end
+  end
+
   def familiars(familiars)
     h.content_tag :table, class:'familiars' do
       h.render('familiars/header') +
@@ -10,6 +16,12 @@ class FamiliarPresenter < BasePresenter
 
   def form
     h.render('familiars/form', familiar:familiar)
+  end
+
+  def image(tag,version=nil)
+    h.content_tag tag, class:"image #{version}" do
+      h.image_tag familiar.image_url(version)
+    end
   end
 
   def median(tag) 

@@ -1,9 +1,11 @@
 <% present familiar do |presenter| %>
 
 <tr class="familiar">
+  <%= presenter.image(:td,:thumb) %>
   <%= presenter.name %>
   <%= presenter.median(:td) %>
   <%= presenter.sales_count %>
+  <%= presenter.actions %>
 </tr>
 
 <% end %>

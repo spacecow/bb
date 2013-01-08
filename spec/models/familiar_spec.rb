@@ -14,6 +14,25 @@ describe Familiar do
     end
   end 
 
+  context "delete" do
+    context "associated sales" do
+      let(:sale){ create :sale }
+      before{ sale.familiar.destroy }
+
+      describe Familiar do
+        subject{ Familiar }
+        its(:count){ should be 0 }
+      end
+
+      describe Sale do
+        subject{ Sale }
+        its(:count){ should be 0 }
+      end
+    end
+  end
+
+  # ------------------ METHODS ----------------
+
   describe ".median" do
     let(:familiar){ stub_model Familiar }
 
@@ -27,4 +46,12 @@ describe Familiar do
       specify{ familiar.median.should eq 20 }
     end
   end 
+
+  describe "static_image_url", wiki:true do
+    let(:familiar){ stub_model Familiar }
+    before{ familiar.should_receive(:name).and_return 'Odin' }
+    subject{ familiar.static_image_url }
+    it{ should eq "http://images4.wikia.nocookie.net/__cb20130106211342/bloodbrothersgame/images/thumb/c/ca/Odin_Figure.png/250px-Odin_Figure.png"
+ } 
+  end
 end

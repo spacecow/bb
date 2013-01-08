@@ -22,4 +22,12 @@ class FamiliarsController < ApplicationController
       render :index
     end
   end
+
+  def update
+    if @familiar.update_attributes(params[:familiar])
+      @familiar.remote_image_url = @familiar.static_image_url
+      @familiar.save
+      redirect_to familiars_path
+    end
+  end
 end

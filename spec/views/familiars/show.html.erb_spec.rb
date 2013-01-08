@@ -13,6 +13,7 @@ describe 'familiars/show' do
   let(:rendering){ Capybara.string(rendered)}
   subject{ rendering }
   it{ should have_selector 'h1', text:'Odin' }
+  it{ should have_selector 'div.image' }
   it{ should have_selector 'div.median' }
   it{ should have_selector 'div.sale.new' }
   it{ should have_selector 'div#container' }
