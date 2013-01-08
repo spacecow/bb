@@ -48,10 +48,18 @@ describe Familiar do
   end 
 
   describe "static_image_url", wiki:true do
-    let(:familiar){ stub_model Familiar }
-    before{ familiar.should_receive(:name).and_return 'Odin' }
-    subject{ familiar.static_image_url }
-    it{ should eq "http://images4.wikia.nocookie.net/__cb20130106211342/bloodbrothersgame/images/thumb/c/ca/Odin_Figure.png/250px-Odin_Figure.png"
- } 
+    context "Odin, src" do
+      let(:familiar){ stub_model Familiar }
+      before{ familiar.should_receive(:name).and_return 'Odin' }
+      subject{ familiar.static_image_url }
+      it{ should eq "http://images4.wikia.nocookie.net/__cb20130106211342/bloodbrothersgame/images/thumb/c/ca/Odin_Figure.png/250px-Odin_Figure.png" } 
+    end
+
+    context "Ghislandi, data-src" do
+      let(:familiar){ stub_model Familiar }
+      before{ familiar.should_receive(:name).and_return 'Ghislandi, The Iron Wall' }
+      subject{ familiar.static_image_url }
+      it{ should eq "http://images2.wikia.nocookie.net/__cb20130106212157/bloodbrothersgame/images/thumb/2/21/Ghislandi%2C_The_Iron_Wall_Figure.png/250px-Ghislandi%2C_The_Iron_Wall_Figure.png" }
+    end
   end
 end

@@ -29,10 +29,12 @@ class Familiar < ActiveRecord::Base
   end
 
   def static_image_url
-    p "!!!!!!!!!!!!!!!!!!!!!!!!!!"
-    url = "http://bloodbrothersgame.wikia.com/wiki/#{self.name}"
+    url = "http://bloodbrothersgame.wikia.com/wiki/#{self.name.gsub(/ /,'_')}"
     doc = Nokogiri::HTML(open(url))
-    image_url = doc.at_css("table.infobox img").attribute('src').value
+    image = doc.at_css("table.infobox a.image img").attribute('src')
+    return image.value if image.value =~ /^http/
+    image = doc.at_css("table.infobox a.image img").attribute('data-src')
+    image.value
   end
 
   class << self
@@ -40,9 +42,9 @@ class Familiar < ActiveRecord::Base
       if token =~ /<<<(.+?)>>>/
         familiar = new(name:$1)
         unless Rails.env.test?
-          url = "http://bloodbrothersgame.wikia.com/wiki/#{$1}"
+          url = "http://bloodbrothersgame.wikia.com/wiki/#{$1.gsub(/ /,'_')}"
           doc = Nokogiri::HTML(open(url))
-          image_url = doc.at_css("table.infobox img").attribute('src').value
+          image_url = doc.at_css("table.infobox img").attribute('data-src').value
           familiar.remote_image_url = image_url
         end
         familiar.save
