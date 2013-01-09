@@ -1,4 +1,49 @@
 @import "compass/css3/columns"
 
-div.familiars
-  +column-count(2)
+$blue: #4B7399
+
+body
+  font: normal 14px "Helvetica Neue", Arial, Helvetica, sans-serif
+a
+  text-decoration: none 
+  color: $blue
+  text-shadow: 1px 1px 1px #aaa
+  &:hover
+    color: lighten($blue, 30%)
+
+div.clear
+  clear: both
+  height: 0
+  overflow: hidden
+
+ul
+  margin: 0
+  padding: 0
+  li
+    list-style-type: none
+    &:hover
+      background: lightgray
+
+li.thumb
+  padding-left: 70px 
+  div.image.thumb
+    margin-left: -65px 
+    float: left
+  
+ul.familiars
+  +column-count(3)
+  li
+    width: 300px
+    display: inline-block
+
+.name
+  font-weight: bold
+
+.median
+  font-size: 12px
+
+.sales_count
+  font-size: 12px
+
+.actions
+  font-size: 12px

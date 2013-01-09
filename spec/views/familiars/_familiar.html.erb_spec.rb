@@ -7,9 +7,9 @@ describe 'familiars/_familiar.html.erb' do
   end
 
   subject{ rendered }
-  it{ should have_selector 'td.image.thumb' }
-  it{ should have_selector 'td.name' }
-  it{ should have_selector 'td.median' }
-  it{ should have_selector 'td.sales_count' }
-  it{ should have_selector 'td.actions' }
+  it{ should have_selector 'div.image.thumb' }
+  it{ should have_selector 'div.name' }
+  it{ should have_selector 'div.median' }
+  it{ should have_selector 'div.sales_count' }
+  it{ should have_selector 'span.actions' }
 end

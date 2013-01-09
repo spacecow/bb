@@ -47,8 +47,8 @@ describe FamiliarPresenter do
     context "with familiars" do
       let(:familiars){ [stub_model(Familiar)] } 
       subject{ Capybara.string(presenter.familiars familiars)}
-      it{ should have_selector 'tr th', count:4}
-      it{ should have_selector 'tr.familiar', count:1}
+      it{ should_not have_selector 'tr th'}
+      it{ should have_selector 'li.familiar.thumb', count:1}
     end
   end
 
@@ -62,22 +62,15 @@ describe FamiliarPresenter do
   describe ".median" do
     before{ familiar.should_receive(:median).and_return '40'}
 
-    context "table" do
-      subject{ Capybara.string(presenter.median(:td))}
-      its(:text){ should eq '40' }
-    end
-
-    context "section" do
-      subject{ Capybara.string(presenter.median(:div))}
-      its(:text){ should eq 'Median: 40' }
-    end
+    subject{ Capybara.string(presenter.median )}
+    its(:text){ should eq 'Median: 40' }
   end
 
   describe ".sales_count" do
     context "without sales" do
       before{ familiar.should_receive(:sales_count).and_return 0 }
       subject{ Capybara.string(presenter.sales_count) }
-      its(:text){ should eq "0" }
+      its(:text){ should eq "Sales count: 0" }
     end
   end
 end

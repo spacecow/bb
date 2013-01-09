@@ -1,15 +1,17 @@
+require 'assert'
+
 class FamiliarPresenter < BasePresenter
   presents :familiar
 
   def actions
-    h.content_tag :td, class:'actions' do
-      h.link_to "Update", h.familiar_path(familiar), method: :put
+    h.content_tag :span, class:'actions' do
+      h.link_to h.t(:update), h.familiar_path(familiar), method: :put
     end
   end
 
   def familiars(familiars)
-    h.content_tag :table, class:'familiars' do
-      h.render('familiars/header') +
+    h.content_tag :ul, class:'familiars' do
+      #h.render('familiars/header') +
       h.render(familiars) if familiars.present?
     end
   end
@@ -24,15 +26,15 @@ class FamiliarPresenter < BasePresenter
     end
   end
 
-  def median(tag) 
-    h.content_tag tag, class:'median' do
-      (tag == :div ? "Median: " : "") +
+  def median
+    h.content_tag :div, class:'median' do
+      "Median: " +
       familiar.median.to_s
     end
   end
 
   def name
-    h.content_tag :td, class:'name' do
+    h.content_tag :div, class:'name' do
       familiar.name
     end
   end
@@ -53,7 +55,8 @@ class FamiliarPresenter < BasePresenter
   end
 
   def sales_count
-    h.content_tag :td, class:'sales_count' do
+    h.content_tag :div, class:'sales_count' do
+      "Sales count: " +
       familiar.sales_count.to_s 
     end
   end
