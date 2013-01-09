@@ -36,6 +36,11 @@ describe Familiar do
   describe ".median" do
     let(:familiar){ stub_model Familiar }
 
+    context "zero" do
+      before{ familiar.should_receive(:regulated_sale_values).and_return []}
+      specify{ familiar.median.should eq 0 }
+    end
+
     context "even" do
       before{ familiar.should_receive(:regulated_sale_values).and_return [10,30,10,20]}
       specify{ familiar.median.should eq 20 }

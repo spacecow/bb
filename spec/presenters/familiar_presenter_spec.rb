@@ -47,7 +47,7 @@ describe FamiliarPresenter do
     context "with familiars" do
       let(:familiars){ [stub_model(Familiar)] } 
       subject{ Capybara.string(presenter.familiars familiars)}
-      it{ should have_selector 'tr th', count:3}
+      it{ should have_selector 'tr th', count:4}
       it{ should have_selector 'tr.familiar', count:1}
     end
   end

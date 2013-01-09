@@ -16,6 +16,7 @@ class Familiar < ActiveRecord::Base
 
   def median
     sorted = regulated_sale_values.sort    
+    return 0 if sorted.empty?
     sorted[sorted.count/2]
   end
 
