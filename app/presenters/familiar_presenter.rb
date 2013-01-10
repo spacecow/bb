@@ -5,7 +5,8 @@ class FamiliarPresenter < BasePresenter
 
   def actions
     h.content_tag :span, class:'actions' do
-      h.link_to h.t(:update), h.familiar_path(familiar), method: :put
+      h.link_to(h.t(:edit), h.edit_familiar_path(familiar)) +" "+
+      h.link_to(h.update(:picture), h.familiar_path(familiar), method: :put)
     end
   end
 

@@ -2,12 +2,16 @@ en:
   familiar:
     one: Familiar
     other: Familiars
+  picture:
+    one: Picture
   sale:
     one: Sale
     other: Sales
 
   labels:
+    edit: Edit %{o}
     new: New %{o}
+    update: Update %{o}
 
   messages:
     sure?: Are you sure?

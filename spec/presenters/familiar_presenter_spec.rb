@@ -7,11 +7,18 @@ describe FamiliarPresenter do
   describe ".actions" do
     let(:rendered){ Capybara.string(presenter.actions)}
     subject{ rendered }
-    its(:text){ should eq 'Update' }
+    its(:text){ should eq 'Edit Update Picture' }
 
-    context "update link" do
-      subject{ rendered.find('a') }
-      its(:text){ should eq 'Update' } 
+    context "edit link" do
+      subject{ rendered.all('a')[0] }
+      its(:text){ should eq 'Edit' } 
+      specify{ subject[:href].should eq edit_familiar_path(familiar) }
+      specify{ subject['data-method'].should be_nil}
+    end
+
+    context "update picture link" do
+      subject{ rendered.all('a')[1] }
+      its(:text){ should eq 'Update Picture' } 
       specify{ subject[:href].should eq familiar_path(familiar) }
       specify{ subject['data-method'].should eq 'put'}
     end

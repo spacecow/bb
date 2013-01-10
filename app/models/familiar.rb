@@ -46,6 +46,7 @@ class Familiar < ActiveRecord::Base
     end
 
     def static_image_url(name)
+p "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       url = "http://bloodbrothersgame.wikia.com/wiki/#{name.gsub(/ /,'_')}"
       doc = Nokogiri::HTML(open(url))
       image = doc.at_css("table.infobox a.image img").attribute('src')
