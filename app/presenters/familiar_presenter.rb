@@ -48,7 +48,7 @@ class FamiliarPresenter < BasePresenter
   end
 
   def sales
-    sales = familiar.done_sales
+    sales = familiar.done_sales.reverse
     h.content_tag :div, class:'sales' do
       h.render 'sales/sales', sales:sales if sales.present?
     end

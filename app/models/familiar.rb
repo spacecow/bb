@@ -29,29 +29,29 @@ class Familiar < ActiveRecord::Base
     arr.frequency
   end
 
-  def static_image_url
-    url = "http://bloodbrothersgame.wikia.com/wiki/#{self.name.gsub(/ /,'_')}"
-    doc = Nokogiri::HTML(open(url))
-    image = doc.at_css("table.infobox a.image img").attribute('src')
-    return image.value if image.value =~ /^http/
-    image = doc.at_css("table.infobox a.image img").attribute('data-src')
-    image.value
-  end
+  def static_image_url; Familiar.static_image_url(self.name) end
 
   class << self
     def id_from_token(token)
       if token =~ /<<<(.+?)>>>/
         familiar = new(name:$1)
-        unless Rails.env.test?
-          url = "http://bloodbrothersgame.wikia.com/wiki/#{$1.gsub(/ /,'_')}"
-          doc = Nokogiri::HTML(open(url))
-          image_url = doc.at_css("table.infobox img").attribute('data-src').value
-          familiar.remote_image_url = image_url
+        begin
+          familiar.remote_image_url = static_image_url($1) unless Rails.env.test?
+        rescue OpenURI::HTTPError
         end
         familiar.save
         token.gsub!(/<<<(.+?)>>>/){ familiar.id } 
       end
       token
+    end
+
+    def static_image_url(name)
+      url = "http://bloodbrothersgame.wikia.com/wiki/#{name.gsub(/ /,'_')}"
+      doc = Nokogiri::HTML(open(url))
+      image = doc.at_css("table.infobox a.image img").attribute('src')
+      return image.value if image.value =~ /^http/
+      image = doc.at_css("table.infobox a.image img").attribute('data-src')
+      image.value
     end
 
     def tokens(query)

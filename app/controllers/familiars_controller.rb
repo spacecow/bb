@@ -25,8 +25,12 @@ class FamiliarsController < ApplicationController
 
   def update
     if @familiar.update_attributes(params[:familiar])
-      @familiar.remote_image_url = @familiar.static_image_url
-      @familiar.save
+      begin
+        @familiar.remote_image_url = @familiar.static_image_url
+        @familiar.save
+      rescue OpenURI::HTTPError
+        flash[:alert] = "Page does not exist!"
+      end
       redirect_to familiars_path
     end
   end

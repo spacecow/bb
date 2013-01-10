@@ -66,5 +66,11 @@ describe Familiar do
       subject{ familiar.static_image_url }
       it{ should eq "http://images2.wikia.nocookie.net/__cb20130106212157/bloodbrothersgame/images/thumb/2/21/Ghislandi%2C_The_Iron_Wall_Figure.png/250px-Ghislandi%2C_The_Iron_Wall_Figure.png" }
     end
+
+    context "Freila, wrong name" do
+      let(:familiar){ stub_model Familiar }
+      before{ familiar.should_receive(:name).and_return 'Freila' }
+      it{ lambda{ familiar.static_image_url }.should raise_error OpenURI::HTTPError }
+    end
   end
 end
