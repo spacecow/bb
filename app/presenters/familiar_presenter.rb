@@ -18,7 +18,9 @@ class FamiliarPresenter < BasePresenter
       end
     elsif tag == :ul
       h.content_tag :ul, class:'familiars' do
-        h.render familiars
+        familiars.keys.sort.reverse.map do |median|
+          h.render familiars[median]
+        end.join.html_safe
       end
     end
   end
@@ -64,9 +66,12 @@ class FamiliarPresenter < BasePresenter
   end
 
   def sales_count
-    h.content_tag :div, class:'sales_count' do
+    count = familiar.sales_count
+    classes = ['sales_count']
+    classes.push('low') if count < 10
+    h.content_tag :div, class:classes do
       "Sales count: " +
-      familiar.sales_count.to_s 
+      count.to_s 
     end
   end
 end

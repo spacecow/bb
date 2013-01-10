@@ -1,5 +1,6 @@
-<%= minititle pl(:familiar) %>
+<% present Familiar do |presenter| %>
 
-<ul class="familiars">
-  <%= render familiars %>
-</ul>
+<%= minititle pl(:familiar) %>
+<%= presenter.familiars(familiars.group_by(&:median),:ul) %>
+
+<% end %>

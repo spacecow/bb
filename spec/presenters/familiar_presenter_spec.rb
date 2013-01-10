@@ -50,21 +50,22 @@ describe FamiliarPresenter do
         its(:text){ should be_blank }
       end
       context "list" do
-        subject{ Capybara.string(presenter.familiars([],:ul)) }
+        subject{ Capybara.string(presenter.familiars({},:ul)) }
         its(:text){ should be_blank }
       end
     end
 
     context "with familiars" do
-      let(:familiars){ [stub_model(Familiar)] } 
       context "section" do
-        subject{ Capybara.string(presenter.familiars familiars, :div)}
+        let(:familiars){[stub_model(Familiar)]} 
+        subject{ Capybara.string(presenter.familiars(familiars,:div))}
         it{ should_not have_selector 'tr th'}
         it{ should have_selector 'h2' }
         it{ should have_selector 'ul.familiars' } 
       end
 
       context "list" do
+        let(:familiars){ {10 => [stub_model(Familiar)]} } 
         subject{ Capybara.string(presenter.familiars familiars, :ul)}
         it{ should_not have_selector 'tr th'}
         it{ should_not have_selector 'h2' }
