@@ -12,8 +12,8 @@ describe 'familiars/index.html.erb' do
   let(:rendering){ Capybara.string(rendered)}
 
   subject{ rendering }
-  it{ should have_selector 'h1', text:'Familiars' }
-  it{ should have_selector 'ul.familiars' }
+  it{ should_not have_selector 'h1', text:'Familiars' }
+  it{ should have_selector 'div.familiars' }
   it{ should have_selector 'div.sale.new' }
-  it{ should have_selector 'div.familiar.new' }
+  it{ should_not have_selector 'div.familiar.new' }
 end

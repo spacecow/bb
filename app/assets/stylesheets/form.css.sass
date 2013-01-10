@@ -1,0 +1,24 @@
+$input_width: 300px
+$label_width: 100px
+$textarea_height: 32px
+
+div.new
+  float: left
+
+div.form
+  padding-left: $label_width 
+  form
+    label
+      float: left
+      width: $label_width - 5px
+      margin-top: 3px 
+      margin-left: -$label_width
+      text-align: right
+    input.string
+      width: $input_width
+    textarea
+      width: $input_width
+      height: $textarea_height
+    ul.token-input-list
+      width: $input_width+3px !important
+      display: inline-block

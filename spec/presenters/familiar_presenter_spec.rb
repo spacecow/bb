@@ -1,11 +1,10 @@
 require 'spec_helper'
 
 describe FamiliarPresenter do
-  let(:familiar){ mock_model(Familiar).as_new_record }
+  let(:familiar){ mock_model(Familiar) }
   let(:presenter){ FamiliarPresenter.new(familiar,view) }
 
   describe ".actions" do
-    let(:familiar){ mock_model(Familiar) }
     let(:rendered){ Capybara.string(presenter.actions)}
     subject{ rendered }
     its(:text){ should eq 'Update' }
@@ -39,24 +38,45 @@ describe FamiliarPresenter do
 
   describe "#familiars" do
     context "without familiars" do
-      let(:rendered){ Capybara.string(presenter.familiars([])) }
-      subject{ rendered }
-      its(:text){ should be_blank }
+      context "section" do
+        subject{ Capybara.string(presenter.familiars([],:div)) }
+        its(:text){ should be_blank }
+      end
+      context "list" do
+        subject{ Capybara.string(presenter.familiars([],:ul)) }
+        its(:text){ should be_blank }
+      end
     end
 
     context "with familiars" do
       let(:familiars){ [stub_model(Familiar)] } 
-      subject{ Capybara.string(presenter.familiars familiars)}
-      it{ should_not have_selector 'tr th'}
-      it{ should have_selector 'li.familiar.thumb', count:1}
+      context "section" do
+        subject{ Capybara.string(presenter.familiars familiars, :div)}
+        it{ should_not have_selector 'tr th'}
+        it{ should have_selector 'h2' }
+        it{ should have_selector 'ul.familiars' } 
+      end
+
+      context "list" do
+        subject{ Capybara.string(presenter.familiars familiars, :ul)}
+        it{ should_not have_selector 'tr th'}
+        it{ should_not have_selector 'h2' }
+        it{ should have_selector 'li.familiar.thumb', count:1 } 
+      end
     end
   end
 
   describe ".name" do
-    before{ familiar.should_receive(:name).and_return 'odin' }
+    before{ familiar.should_receive(:name).and_return 'Odin' }
     let(:rendering){ Capybara.string(presenter.name)}
     subject{ rendering }
-    its(:text){ should eq 'odin' }
+    its(:text){ should eq 'Odin' }
+
+    context "link" do
+      subject{ rendering.find('a') }
+      its(:text){ should eq 'Odin' }
+      specify{ subject[:href].should eq familiar_path(familiar)}
+    end
   end
 
   describe ".median" do

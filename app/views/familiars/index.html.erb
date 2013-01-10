@@ -1,10 +1,10 @@
-<%= title pl(:familiar) %>
-
 <% present @familiar do |presenter| %>
 
-<%= presenter.familiars(@familiars) %>
-
 <%= presenter.new_sale(@sale) %>
-<%= presenter.new %>
+<%# presenter.new %>
+<%= presenter.clear_div %>
+
+<%= presenter.familiars(@familiars, :div) %>
+
 
 <% end %>

@@ -5,7 +5,7 @@ describe 'Familiar index' do
     before do
       visit familiars_path
       fill_in 'Familiar', with:'<<<Odin>>>'
-      select 'Hearts Blood', from:'Unit'
+      #select 'Hearts Blood', from:'Unit'
       fill_in 'Value', with:20
     end
 
@@ -14,7 +14,7 @@ describe 'Familiar index' do
 
       describe "created sale" do
         subject{ Sale.last }
-        its(:unit_mask){ should eq 0 }
+        its(:unit_mask){ should eq 1 }
       end
     end
 

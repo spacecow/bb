@@ -6,5 +6,5 @@ describe 'sales/_new.html.erb' do
 
   subject{ rendered }
   it{ should have_selector 'h2', text:'New Sale' }
-  it{ should have_selector 'form.new_sale' }
+  it{ should have_selector 'div.form' }
 end

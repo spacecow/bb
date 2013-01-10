@@ -8,7 +8,7 @@ class FamiliarsController < ApplicationController
 
   def index
     @familiar = Familiar.new
-    @sale = Sale.new
+    @sale = Sale.new(unit:'Mandrake')
     respond_to do |f|
       f.html{ @familiars = @familiars.sort_by(&:median).reverse }
       f.json{render json:@familiars.tokens(params[:q])}

@@ -8,7 +8,9 @@ class SalePresenter < BasePresenter
   end
 
   def form
-    h.render 'sales/form', sale:sale
+    h.content_tag :div, class:'form' do
+      h.render 'sales/form', sale:sale
+    end
   end
 
   def sales(sales)

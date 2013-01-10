@@ -9,15 +9,23 @@ class FamiliarPresenter < BasePresenter
     end
   end
 
-  def familiars(familiars)
-    h.content_tag :ul, class:'familiars' do
-      #h.render('familiars/header') +
-      h.render(familiars) if familiars.present?
+  def familiars(familiars, tag)
+    assert_include [:div,:ul], tag
+    if tag == :div
+      h.content_tag :div, class:'familiars' do
+        h.render 'familiars/familiars', familiars:familiars if familiars.present?
+      end
+    elsif tag == :ul
+      h.content_tag :ul, class:'familiars' do
+        h.render familiars
+      end
     end
   end
 
   def form
-    h.render('familiars/form', familiar:familiar)
+    h.content_tag :div, class:'form' do
+      h.render('familiars/form', familiar:familiar)
+    end
   end
 
   def image(tag,version=nil)
@@ -35,7 +43,7 @@ class FamiliarPresenter < BasePresenter
 
   def name
     h.content_tag :div, class:'name' do
-      familiar.name
+      h.link_to familiar.name, familiar
     end
   end
 
