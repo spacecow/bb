@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130107072744) do
+ActiveRecord::Schema.define(:version => 20130111051930) do
 
   create_table "familiars", :force => true do |t|
     t.string   "name"
@@ -19,6 +19,11 @@ ActiveRecord::Schema.define(:version => 20130107072744) do
     t.datetime "updated_at",                 :null => false
     t.string   "image"
     t.integer  "sales_count", :default => 0
+    t.integer  "maxhp"
+    t.integer  "maxatk"
+    t.integer  "maxdef"
+    t.integer  "maxwis"
+    t.integer  "maxagi"
   end
 
   create_table "sales", :force => true do |t|

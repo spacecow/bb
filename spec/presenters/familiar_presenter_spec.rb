@@ -7,7 +7,7 @@ describe FamiliarPresenter do
   describe ".actions" do
     let(:rendered){ Capybara.string(presenter.actions)}
     subject{ rendered }
-    its(:text){ should eq 'Edit Update Picture' }
+    its(:text){ should eq 'Edit Update(Image Stats)' }
 
     context "edit link" do
       subject{ rendered.all('a')[0] }
@@ -16,13 +16,19 @@ describe FamiliarPresenter do
       specify{ subject['data-method'].should be_nil}
     end
 
-    context "update picture link" do
+    context "update image link" do
       subject{ rendered.all('a')[1] }
-      its(:text){ should eq 'Update Picture' } 
-      specify{ subject[:href].should eq familiar_path(familiar) }
+      its(:text){ should eq 'Image' } 
+      specify{ subject[:href].should eq familiar_path(familiar, focus: :image) }
       specify{ subject['data-method'].should eq 'put'}
     end
     
+    context "update stats link" do
+      subject{ rendered.all('a')[2] }
+      its(:text){ should eq 'Stats' } 
+      specify{ subject[:href].should eq familiar_path(familiar, focus: :stats) }
+      specify{ subject['data-method'].should eq 'put'}
+    end
   end
 
   describe ".sales" do
@@ -99,6 +105,18 @@ describe FamiliarPresenter do
       before{ familiar.should_receive(:sales_count).and_return 0 }
       subject{ Capybara.string(presenter.sales_count) }
       its(:text){ should eq "Sales count: 0" }
+    end
+  end
+
+  describe ".stats" do
+    context "no stats" do
+      subject{ Capybara.string(presenter.stats) }
+      its(:text){ should eq "x/x/x/x/x" }
+      it{ should have_selector 'span.maxhp' }
+      it{ should have_selector 'span.maxatk' }
+      it{ should have_selector 'span.maxdef' }
+      it{ should have_selector 'span.maxwis' }
+      it{ should have_selector 'span.maxagi' }
     end
   end
 end

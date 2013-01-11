@@ -1,0 +1,104 @@
+[data-tip]
+  position: relative
+  cursor: help
+[data-tip]:before
+  content: ''
+  /* hides the tooltip when not hovered */
+  display: none
+  border: 5px solid #1a1a1a
+  /* 4 border technique to create the arrow */
+  border-top-color: #1a1a1a
+  border-right-color: transparent
+  border-bottom-color: transparent
+  border-left-color: transparent
+  position: absolute
+  top: -7px
+  left: 10px
+  z-index: 8
+  font-size: 0
+  line-height: 0
+  width: 0
+  height: 0
+[data-tip]:after
+  display: none
+  content: attr(data-tip)
+  position: absolute
+  top: -35px
+  left: 0px
+  padding: 5px 8px
+  background: #1a1a1a
+  color: #fff
+  z-index: 9
+  font-size:  14px
+  height: 18px
+  line-height: 18px
+  -webkit-border-radius: 3px
+  -moz-border-radius: 3px
+  border-radius: 3px
+  white-space: nowrap
+  word-wrap: normal
+[data-tip]:hover:before, [data-tip]:hover:after
+  display: block
+
+$maxhp: #18d74a
+$maxagi: #f78a39
+$maxatk: #d65163
+$maxdef: #63baff
+$maxwis: #de96f7
+.stats
+  font-size: 12px
+  span.maxhp
+    color: $maxhp
+  span.maxagi
+    color: $maxagi
+  span.maxatk
+    color: $maxatk
+  span.maxdef
+    color: $maxdef 
+  span.maxwis
+    color: $maxwis 
+
+.maxhp[data-tip]:before
+  border-top-color: $maxhp 
+  border-right-color: transparent
+  border-bottom-color: transparent
+  border-left-color: transparent
+.maxhp[data-tip]:after
+  background: $maxhp
+  color: #fff
+
+.maxatk[data-tip]:before
+  border-top-color: $maxatk 
+  border-right-color: transparent
+  border-bottom-color: transparent
+  border-left-color: transparent
+.maxatk[data-tip]:after
+  background: $maxatk
+  color: #fff
+
+.maxdef[data-tip]:before
+  border-top-color: $maxdef
+  border-right-color: transparent
+  border-bottom-color: transparent
+  border-left-color: transparent
+.maxdef[data-tip]:after
+  background: $maxdef
+  color: #fff
+
+.maxwis[data-tip]:before
+  border-top-color: $maxwis
+  border-right-color: transparent
+  border-bottom-color: transparent
+  border-left-color: transparent
+.maxwis[data-tip]:after
+  background: $maxwis
+  color: #fff
+
+.maxagi[data-tip]:before
+  border-top-color: $maxagi 
+  border-right-color: transparent
+  border-bottom-color: transparent
+  border-left-color: transparent
+.maxagi[data-tip]:after
+  background: $maxagi
+  color: #fff

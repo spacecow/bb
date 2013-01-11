@@ -19,7 +19,7 @@ class Familiar < ActiveRecord::Base
     return 0 if sorted.empty?
     sorted[sorted.count/2]
   end
-
+  
   def regulated_sale_values
     sales.map(&:regulated_value)
   end

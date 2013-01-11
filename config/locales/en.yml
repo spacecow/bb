@@ -2,11 +2,13 @@ en:
   familiar:
     one: Familiar
     other: Familiars
-  picture:
-    one: Picture
+  image:
+    one: Image
   sale:
     one: Sale
     other: Sales
+  stats:
+    other: Stats
 
   labels:
     edit: Edit %{o}

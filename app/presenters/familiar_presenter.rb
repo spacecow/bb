@@ -5,8 +5,9 @@ class FamiliarPresenter < BasePresenter
 
   def actions
     h.content_tag :span, class:'actions' do
-      h.link_to(h.t(:edit), h.edit_familiar_path(familiar)) +" "+
-      h.link_to(h.update(:picture), h.familiar_path(familiar), method: :put)
+      h.link_to(h.t(:edit), h.edit_familiar_path(familiar)) +" Update("+
+      h.link_to(h.pl(:image,1), h.familiar_path(familiar, focus: :image), method: :put) +" "+
+      h.link_to(h.pl(:stats), h.familiar_path(familiar, focus: :stats), method: :put) +")"
     end
   end
 
@@ -19,7 +20,8 @@ class FamiliarPresenter < BasePresenter
     elsif tag == :ul
       h.content_tag :ul, class:'familiars' do
         familiars.keys.sort.reverse.map do |median|
-          h.render familiars[median]
+          "<li class='median'>#{median}</li>" +
+          h.render(familiars[median])
         end.join.html_safe
       end
     end
@@ -72,6 +74,22 @@ class FamiliarPresenter < BasePresenter
     h.content_tag :div, class:classes do
       "Sales count: " +
       count.to_s 
+    end
+  end
+
+  STATS = %w(maxhp maxatk maxdef maxwis maxagi)
+  STATS.each do |stat|
+    define_method(stat) do
+      i = familiar.send(stat)
+      h.content_tag :span, class:stat, 'data-tip' => "#{stat}: #{i}" do
+        i.nil? ? "x" : i.to_s 
+      end
+    end
+  end
+
+  def stats
+    h.content_tag :div, class:'stats' do
+      "#{maxhp}/#{maxatk}/#{maxdef}/#{maxwis}/#{maxagi}".html_safe
     end
   end
 end

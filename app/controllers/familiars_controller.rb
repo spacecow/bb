@@ -26,7 +26,16 @@ class FamiliarsController < ApplicationController
   def update
     if @familiar.update_attributes(params[:familiar])
       begin
-        @familiar.remote_image_url = @familiar.static_image_url
+        if params[:focus] == 'image'
+          @familiar.remote_image_url = @familiar.static_image_url 
+        elsif params[:focus] == 'stats'
+          stats = Wiki.max_stats(@familiar.name)
+          @familiar.maxhp = stats.shift
+          @familiar.maxatk = stats.shift
+          @familiar.maxdef = stats.shift
+          @familiar.maxwis = stats.shift
+          @familiar.maxagi = stats.shift
+        end
         @familiar.save
       rescue OpenURI::HTTPError
         flash[:alert] = "Page does not exist!"
