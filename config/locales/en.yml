@@ -2,11 +2,13 @@ en:
   familiar:
     one: Familiar
     other: Familiars
+  go: Go
   image:
     one: Image
   sale:
     one: Sale
     other: Sales
+  sort: Sort
   stats:
     other: Stats
 

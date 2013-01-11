@@ -8,6 +8,8 @@ class Familiar < ActiveRecord::Base
 
   validates :name, presence:true, uniqueness:true
 
+  ATTRIBUTES = [['Mandrake value','median'],['Max HP', 'maxhp'],['Max ATK', 'maxatk'],['Max DEF', 'maxdef'],['Max WIS', 'maxwis'],['Max AGI', 'maxagi']]
+
   def done_sales
     arr = sales
     arr.pop if arr.last and arr.last.new_record?

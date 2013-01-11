@@ -11,18 +11,26 @@ class FamiliarPresenter < BasePresenter
     end
   end
 
-  def familiars(familiars, tag)
+  def familiars(familiars, tag, sort)
     assert_include [:div,:ul], tag
     if tag == :div
       h.content_tag :div, class:'familiars' do
-        h.render 'familiars/familiars', familiars:familiars if familiars.present?
+        h.render 'familiars/familiars', familiars:familiars, sort:sort if familiars.present?
       end
     elsif tag == :ul
-      h.content_tag :ul, class:'familiars' do
-        familiars.keys.sort.reverse.map do |median|
-          "<li class='median'>#{median}</li>" +
-          h.render(familiars[median])
-        end.join.html_safe
+      if sort == 'median'
+        hash = familiars.group_by(&:median)
+        h.content_tag :ul, class:'familiars' do
+          hash.keys.sort.reverse.map do |median|
+            "<li class='median'>#{median}</li>" +
+            h.render(hash[median])
+          end.join.html_safe
+        end
+      else
+        arr = familiars.sort_by(&sort.to_sym).reverse
+        h.content_tag :ul, class:'familiars' do
+          h.render(arr)
+        end
       end
     end
   end

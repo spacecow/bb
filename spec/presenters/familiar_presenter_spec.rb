@@ -52,30 +52,42 @@ describe FamiliarPresenter do
   describe "#familiars" do
     context "without familiars" do
       context "section" do
-        subject{ Capybara.string(presenter.familiars([],:div)) }
+        subject{ Capybara.string(presenter.familiars([],:div,:median)) }
         its(:text){ should be_blank }
       end
       context "list" do
-        subject{ Capybara.string(presenter.familiars({},:ul)) }
+        subject{ Capybara.string(presenter.familiars({},:ul,'median')) }
         its(:text){ should be_blank }
       end
     end
 
     context "with familiars" do
+      let(:familiars){[stub_model(Familiar)]} 
+
       context "section" do
-        let(:familiars){[stub_model(Familiar)]} 
-        subject{ Capybara.string(presenter.familiars(familiars,:div))}
+        subject{ Capybara.string(presenter.familiars(familiars,:div,'median'))}
         it{ should_not have_selector 'tr th'}
         it{ should have_selector 'h2' }
         it{ should have_selector 'ul.familiars' } 
       end
 
       context "list" do
-        let(:familiars){ {10 => [stub_model(Familiar)]} } 
-        subject{ Capybara.string(presenter.familiars familiars, :ul)}
-        it{ should_not have_selector 'tr th'}
-        it{ should_not have_selector 'h2' }
-        it{ should have_selector 'li.familiar.thumb', count:1 } 
+        context "sorted on median" do
+          subject{ Capybara.string(presenter.familiars familiars,:ul,'median')}
+          it{ should_not have_selector 'tr th'}
+          it{ should_not have_selector 'h2' }
+          it{ should have_selector 'li.familiar.thumb', count:1 } 
+          it{ should have_selector 'li', count:2 } 
+        end
+
+        context "sorted on maxagi" do
+          let(:familiars){[stub_model(Familiar)]} 
+          subject{ Capybara.string(presenter.familiars familiars, :ul, :maxagi)}
+          it{ should_not have_selector 'tr th'}
+          it{ should_not have_selector 'h2' }
+          it{ should have_selector 'li.familiar.thumb', count:1 } 
+          it{ should have_selector 'li', count:1 } 
+        end
       end
     end
   end

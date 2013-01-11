@@ -1,6 +1,13 @@
 <% present Familiar do |presenter| %>
 
 <%= minititle pl(:familiar) %>
-<%= presenter.familiars(familiars.group_by(&:median),:ul) %>
+
+<%= form_tag familiars_path, class: :sort, method: :get do %>
+  <%= label_tag :sort, t(:sort) %>
+  <%= select_tag :sort, options_for_select(Familiar::ATTRIBUTES, sort) %>
+  <%= submit_tag t(:go) %>
+<% end %>
+
+<%= presenter.familiars(familiars,:ul,sort) %>
 
 <% end %>
