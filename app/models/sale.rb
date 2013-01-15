@@ -2,7 +2,7 @@ class Sale < ActiveRecord::Base
   belongs_to :familiar, counter_cache:true
 
   attr_accessor :familiar_token
-  attr_accessible :familiar_token, :value, :unit, :note
+  attr_accessible :familiar_token, :value, :unit, :note, :created_at
 
   validates :familiar, presence:true
   validates :value, presence:true, exclusion:{in:[0], message:'cannot be zero'}

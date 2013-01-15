@@ -2,12 +2,13 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.8'
 gem 'mysql2'
-gem 'jquery-rails'
 gem 'cancan'
 gem 'simple_form'
 gem 'libv8', '~> 3.11.8'
 gem 'carrierwave'
 gem 'rmagick'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

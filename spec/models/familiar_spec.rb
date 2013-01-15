@@ -11,6 +11,7 @@ describe Familiar do
         create :familiar, name:'odin'
         lambda{ create :familiar, name:'odin' }.should raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken')
       end
+
     end
   end 
 

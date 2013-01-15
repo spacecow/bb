@@ -4,6 +4,7 @@ class SalesController < ApplicationController
   def create
     if @sale.save
       session[:preferred_unit] = @sale.unit 
+      session[:preferred_date] = @sale.created_at 
       redirect_to @sale.familiar, notice:created(:sale)
     else
       if @sale.familiar.nil?

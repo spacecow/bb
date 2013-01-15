@@ -23,6 +23,7 @@ en:
   simple_form:
     labels:
       sale:
+        created_at: Sold at
         familiar_token: Familiar
 
   successes:

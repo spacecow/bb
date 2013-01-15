@@ -3,6 +3,7 @@
   <%# f.input :unit, as: :select, collection:Sale::UNITS, selected:preferred_unit %>
   <%= f.input :unit, as: :hidden %>
   <%= f.input :value, hint:'Mandrake' %>
+  <%= f.input :created_at, as: :string %>
   <%= f.input :note, as: :text %>
   <%= f.button :submit %>
 <% end %>

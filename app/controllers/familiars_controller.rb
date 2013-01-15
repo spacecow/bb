@@ -2,13 +2,15 @@ class FamiliarsController < ApplicationController
   load_and_authorize_resource
 
   def show
-    @sale = @familiar.sales.new(value:0,unit:'Mandrake')
+    date = session[:preferred_date] || Date.today
+    @sale = @familiar.sales.new(value:0,unit:'Mandrake',created_at:date)
     @hash = @familiar.regulated_sale_values_freq
   end
 
   def index
     @familiar = Familiar.new
-    @sale = Sale.new(unit:'Mandrake')
+    date = session[:preferred_date] || Date.today
+    @sale = Sale.new(unit:'Mandrake', created_at:date)
     @sort = params[:sort] || 'median'
     respond_to do |f|
       f.html{ @familiars = @familiars.sort_by(&:median).reverse }
