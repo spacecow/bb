@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130111051930) do
+ActiveRecord::Schema.define(:version => 20130116011031) do
 
   create_table "familiars", :force => true do |t|
     t.string   "name"
@@ -26,6 +26,13 @@ ActiveRecord::Schema.define(:version => 20130111051930) do
     t.integer  "maxagi"
   end
 
+  create_table "familiars_skills", :force => true do |t|
+    t.integer  "familiar_id"
+    t.integer  "skill_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "sales", :force => true do |t|
     t.integer  "familiar_id"
     t.float    "value"
@@ -33,6 +40,14 @@ ActiveRecord::Schema.define(:version => 20130111051930) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "note"
+  end
+
+  create_table "skills", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "note"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
 end

@@ -4,6 +4,12 @@
 <%# presenter.new %>
 <%= presenter.clear_div %>
 
+<%= form_tag familiars_path, class: :sort, method: :get do %>
+  <%= label_tag :sort, t(:sort) %>
+  <%= select_tag :sort, options_for_select(Familiar::ATTRIBUTES, @sort) %>
+  <%= submit_tag t(:go) %>
+<% end %>
+
 <%= presenter.familiars(@familiars,:div,@sort) %>
 
 <% end %>

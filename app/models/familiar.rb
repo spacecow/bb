@@ -1,6 +1,9 @@
 require 'nokogiri'
 
 class Familiar < ActiveRecord::Base
+  has_many :familiars_skills, dependent: :destroy
+  has_many :skills, through: :familiars_skills
+
   has_many :sales, dependent: :destroy
 
   attr_accessible :name, :remote_image_url

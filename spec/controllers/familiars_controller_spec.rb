@@ -3,23 +3,46 @@ require 'spec_helper'
 describe FamiliarsController do
   describe "#update" do
     let(:familiar){ create :familiar }
-    before do
-      Wiki.should_receive(:max_stats).and_return [12189, 13681, 11712, 14264, 11579]
-      put :update, id:familiar.id, focus: :stats
+
+    context "stats" do
+      before do
+        Wiki.should_receive(:max_stats).and_return [12189, 13681, 11712, 14264, 11579]
+        put :update, id:familiar.id, focus: :stats
+      end
+
+      describe "last familiar" do
+        subject{ Familiar.last }
+        its(:maxhp){ should be 12189 }
+        its(:maxatk){ should be 13681 }
+        its(:maxdef){ should be 11712 }
+        its(:maxwis){ should be 14264 }
+        its(:maxagi){ should be 11579 }
+      end
     end
 
-    describe "last familiar" do
-      subject{ Familiar.last }
-      its(:maxhp){ should be 12189 }
-      its(:maxatk){ should be 13681 }
-      its(:maxdef){ should be 11712 }
-      its(:maxwis){ should be 14264 }
-      its(:maxagi){ should be 11579 }
+    context "skills" do
+      before do
+        Wiki.should_receive(:skill_infos).and_return [['Flash of Rage', 'Call down six random lightning bolts on foes.', 'no additional info']]
+        put :update, id:familiar.id, focus: :skills
+      end
+
+      describe "last familiars-skill" do
+        subject{ FamiliarsSkill.last }
+        its(:familiar_id){ should be familiar.id }
+        its(:skill_id){ should be Skill.last.id }
+      end
+
+      describe "last skill" do
+        subject{ Skill.last }
+        its(:name){ should eq 'Flash of Rage' }
+        its(:description){ should eq 'Call down six random lightning bolts on foes.' }
+        its(:note){ should eq 'no additional info' }
+      end
     end
   end
 
   describe "#create" do
-    def send_post h={}
+    def send_post h={} 
       post :create, familiar:{name:h[:name]}
     end
 

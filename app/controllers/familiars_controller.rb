@@ -38,6 +38,18 @@ class FamiliarsController < ApplicationController
           @familiar.maxdef = stats.shift
           @familiar.maxwis = stats.shift
           @familiar.maxagi = stats.shift
+        elsif params[:focus] == 'skills'
+          skill_infos = Wiki.skill_infos(@familiar.name)
+          skill_infos.each do |info|
+            skill = Skill.find_or_create_by_name(info[0]) 
+            skill.description = info[1]
+            skill.note = info[2]
+            skill.save 
+            begin
+              @familiar.skills << skill
+            rescue ActiveRecord::RecordInvalid
+            end
+          end 
         end
         @familiar.save
       rescue OpenURI::HTTPError

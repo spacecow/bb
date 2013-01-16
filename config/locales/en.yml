@@ -8,6 +8,8 @@ en:
   sale:
     one: Sale
     other: Sales
+  skill:
+    other: Skills
   sort: Sort
   stats:
     other: Stats

@@ -7,7 +7,7 @@ describe FamiliarPresenter do
   describe ".actions" do
     let(:rendered){ Capybara.string(presenter.actions)}
     subject{ rendered }
-    its(:text){ should eq 'Edit Update(Image Stats)' }
+    its(:text){ should eq 'Edit Update(Image Stats Skills)' }
 
     context "edit link" do
       subject{ rendered.all('a')[0] }
@@ -27,6 +27,13 @@ describe FamiliarPresenter do
       subject{ rendered.all('a')[2] }
       its(:text){ should eq 'Stats' } 
       specify{ subject[:href].should eq familiar_path(familiar, focus: :stats) }
+      specify{ subject['data-method'].should eq 'put'}
+    end
+
+    context "update skills link" do
+      subject{ rendered.all('a')[3] }
+      its(:text){ should eq 'Skills' } 
+      specify{ subject[:href].should eq familiar_path(familiar, focus: :skills) }
       specify{ subject['data-method'].should eq 'put'}
     end
   end
@@ -49,10 +56,24 @@ describe FamiliarPresenter do
     end
   end
 
+  describe ".skill" do
+    let(:skill){ mock_model(Skill, name:'Slashing Blade') }
+    before{ familiar.should_receive(:skills).and_return [skill] }
+    let(:rendering){ Capybara.string presenter.skills }
+    subject{ rendering }
+    its(:text){ should eq 'Skills: Slashing Blade' }
+
+    context "link" do
+      subject{ rendering.find 'a' }
+      its(:text){ should eq 'Slashing Blade' }
+      specify{ subject[:href].should eq skill_path(skill) }
+    end
+  end
+
   describe "#familiars" do
     context "without familiars" do
       context "section" do
-        subject{ Capybara.string(presenter.familiars([],:div,:median)) }
+        subject{ Capybara.string(presenter.familiars([],:div,'median')) }
         its(:text){ should be_blank }
       end
       context "list" do

@@ -21,9 +21,41 @@ class Wiki
       evos[1..-1]
     end
 
-    def url(name)
-      name.gsub!(/\/wiki\//,'')
-      "http://bloodbrothersgame.wikia.com/wiki/#{name.gsub(/ /,'_')}"
+    def skill_paths(name)
+      doc = doc(max_evolved_url name)
+      urls = [doc.at_xpath("//table[@class='infobox']/tr[10]/td[2]/a").attribute('href').value]
+      second_skill = doc.at_xpath("//table[@class='infobox']/tr[10]/td[2]/a[2]")
+      urls.push second_skill.attribute('href').value unless second_skill.nil? 
+      urls
+    end
+
+    def skill_infos(name)
+      skill_paths(name).map do |path|
+        doc = doc(url path)
+        info = [skill_name(doc)]
+        info.push skill_description(doc)
+        info.push skill_note(doc)
+        info
+      end
+    end
+
+    def skill_name(doc)
+      doc.at_xpath("//header[@id='WikiaPageHeader']/h1").text
+    end
+    def skill_description(doc)
+      desc = doc.at_xpath("//table[@class='infobox']/tr[2]/td[2]/div")
+      desc = doc.at_xpath("//div[@id='mw-content-text']/p") if desc.nil?
+      desc.text.strip
+    end
+    def skill_note(doc)
+      note = doc.at_xpath("//table[@class='infobox']/tr[5]/td[2]")
+      note = doc.at_xpath("//div[@id='mw-content-text']/p[2]") if note.nil?
+      note.text.gsub("\n"," ").strip
+    end
+
+    def url(path)
+      path.gsub!(/\/wiki\//,'')
+      "http://bloodbrothersgame.wikia.com/wiki/#{path.gsub(/ /,'_')}"
     end
 
     def doc(url)

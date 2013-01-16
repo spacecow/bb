@@ -36,4 +36,33 @@ describe Wiki do
       it{ should eq [12189, 13681, 11712, 14264, 11579] }
     end
   end
+
+  describe "skill_paths", wiki:true do
+    describe "one skill" do
+      subject{ Wiki.skill_paths('Odin') }
+      it{ should eq ['/wiki/Category:Flash_of_Rage'] }
+    end
+
+    describe "two skills" do
+      subject{ Wiki.skill_paths('Galahad, Drake Knight') }
+      it{ should eq ['/wiki/Category:Grace_of_Winds', '/wiki/Category:Whirlwind'] }
+    end
+  end
+
+  describe "skill_infos", wiki:true do
+    describe "one skill" do
+      subject{ Wiki.skill_infos('Odin') }
+      it{ should eq [['Flash of Rage', 'Call down six random lightning bolts on foes.', '']] }
+    end
+
+    describe "infobox" do
+      subject{ Wiki.skill_infos('Zeku') }
+      it{ should eq [['Blitz Assault', 'Deal incredible damage to one foe, regardless of position.', '400% (ATK)']] }
+    end
+
+    describe "two skills" do
+      subject{ Wiki.skill_infos('Galahad, Drake Knight') }
+      it{ should eq [['Grace of Winds', 'Raise AGI of self and adjacent familiars.', 'The Grace of Winds ability is WIS based. Amount of AGI increase is equal to 50% of caster\'s WIS.'],['Whirlwind', 'Deal heavy AGI-based damage to three foes.', 'The Whirlwind ability is AGI based.']] }
+    end
+  end
 end

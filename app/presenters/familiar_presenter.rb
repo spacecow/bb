@@ -7,7 +7,8 @@ class FamiliarPresenter < BasePresenter
     h.content_tag :span, class:'actions' do
       h.link_to(h.t(:edit), h.edit_familiar_path(familiar)) +" Update("+
       h.link_to(h.pl(:image,1), h.familiar_path(familiar, focus: :image), method: :put) +" "+
-      h.link_to(h.pl(:stats), h.familiar_path(familiar, focus: :stats), method: :put) +")"
+      h.link_to(h.pl(:stats), h.familiar_path(familiar, focus: :stats), method: :put) +" "+
+      h.link_to(h.pl(:skill), h.familiar_path(familiar, focus: :skills), method: :put) +")"
     end
   end
 
@@ -82,6 +83,12 @@ class FamiliarPresenter < BasePresenter
     h.content_tag :div, class:classes do
       "Sales count: " +
       count.to_s 
+    end
+  end
+
+  def skills
+    h.content_tag :div, class:'skills' do
+      "#{h.pl(:skill)}: #{familiar.skills.map{|e| h.link_to e.name,e, 'data-tip' => "#{e.description} #{e.note}"}.join(', ').html_safe}".html_safe
     end
   end
 

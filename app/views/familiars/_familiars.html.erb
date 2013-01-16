@@ -2,12 +2,6 @@
 
 <%= minititle pl(:familiar) %>
 
-<%= form_tag familiars_path, class: :sort, method: :get do %>
-  <%= label_tag :sort, t(:sort) %>
-  <%= select_tag :sort, options_for_select(Familiar::ATTRIBUTES, sort) %>
-  <%= submit_tag t(:go) %>
-<% end %>
-
 <%= presenter.familiars(familiars,:ul,sort) %>
 
 <% end %>

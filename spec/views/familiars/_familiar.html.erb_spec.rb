@@ -10,6 +10,7 @@ describe 'familiars/_familiar.html.erb' do
     it{ should have_selector 'div.name' }
     it{ should have_selector 'div.median' }
     it{ should have_selector 'div.stats' }
+    it{ should have_selector 'div.skills' }
     it{ should have_selector 'span.actions' }
   end
 
