@@ -33,6 +33,14 @@ class Familiar < ActiveRecord::Base
     arr.pop if delete_last
     arr.frequency
   end
+  def regulated_sale_values_freq_per_day
+    sales = self.sales.order(:created_at)
+    return {} if sales.empty?
+    interval = Johan::Date.interval sales.map(&:created_at) 
+    interval_hash = {}
+    interval.each{|date| interval_hash[date] = Johan::Math.median(sales.select{|sale| sale.created_at < date.end_of_day}.last(10).map(&:regulated_value))}
+    interval_hash
+  end
 
   def static_image_url; Familiar.static_image_url(self.name) end
 

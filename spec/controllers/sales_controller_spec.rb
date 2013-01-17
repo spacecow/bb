@@ -23,7 +23,7 @@ describe SalesController do
 
   describe "#create" do
     def send_post h={}
-      post :create, sale:{familiar_token:h[:familiar], value:40, unit:'Mandrake', created_at:Time.now-1.hour}
+      post :create, sale:{familiar_token:h[:familiar], value:40, unit:'Mandrake', created_at:'2013-01-16'}
     end
 
     context "create" do
@@ -36,11 +36,12 @@ describe SalesController do
       end
 
       describe "created sale" do
+        let(:now){ Time.zone.now }
         subject{ Sale.last }
         its(:familiar_id){should be odin.id}
         its(:value){ should be_within(0.01).of(40.0) }
         its(:unit_mask){ should be 1 }
-        its(:created_at){ should be_within(1.second).of(Time.now-1.hour) }
+        its(:created_at){ should eq Time.zone.parse "2013-01-16 #{now.hour}:#{now.min}:#{now.sec}" }
       end
 
       describe "response" do

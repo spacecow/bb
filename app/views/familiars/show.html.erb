@@ -8,10 +8,11 @@
     <%= presenter.sales %>
   </div>
 
-  <div class="right">
+  <div class="right" style="width: 800px">
     <%= presenter.median %>
     <%= presenter.new_sale(@sale) %>
-    <div id="container" style="float:left; width:560px; height:300px;"></div>
+    <div id="total_mandrake_container" style="float:left; width:560px; height:300px;"></div>
+    <div id="per_day_mandrake_container" style="float:left; width:560px; height:300px;"></div>
 
     <% end %>
 
@@ -19,22 +20,50 @@
       $(function(){
         new Highcharts.Chart({
           chart: {
-            renderTo: "container",
+            renderTo: "total_mandrake_container",
             type: 'column'
           },
           title: {
-            text: "Mandrake"
+            text: "Total Mandrake"
           },
           xAxis: {
             categories:<%= @hash.keys.sort %>
           },
           yAxis: {
             title: {
-              text: "min"
+              text: "mandrake"
             }
           },
           series: [{
             data: <%= @hash.keys.sort.map{|e| @hash[e]} %>,
+          }],
+        });
+
+        new Highcharts.Chart({
+          chart: {
+            renderTo: "per_day_mandrake_container",
+          },
+          title: {
+            text: "Mandrake fluctuation"
+          },
+          xAxis: {
+            type: "datetime"
+          },
+          yAxis: {
+            title: {
+              text: "mandrake"
+            }
+          },
+          tooltip: {
+            formatter: function () {
+              return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' +
+                Highcharts.numberFormat(this.y, 0) + ' mk';
+            }
+          },
+          series: [{
+            pointInterval: <%= 1.day * 1000 %>,
+            pointStart: <%= (@interval_hash.keys.sort.first.beginning_of_day + 9.hour).to_i * 1000 if @interval_hash.present? %>,
+            data: <%= @interval_hash.keys.sort.map{|e| @interval_hash[e]} %>
           }],
         });
       });

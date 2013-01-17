@@ -45,12 +45,12 @@ class Wiki
     def skill_description(doc)
       desc = doc.at_xpath("//table[@class='infobox']/tr[2]/td[2]/div")
       desc = doc.at_xpath("//div[@id='mw-content-text']/p") if desc.nil?
-      desc.text.strip
+      desc.text.strip unless desc.nil?
     end
     def skill_note(doc)
       note = doc.at_xpath("//table[@class='infobox']/tr[5]/td[2]")
       note = doc.at_xpath("//div[@id='mw-content-text']/p[2]") if note.nil?
-      note.text.gsub("\n"," ").strip
+      note.text.gsub("\n"," ").strip unless note.nil?
     end
 
     def url(path)

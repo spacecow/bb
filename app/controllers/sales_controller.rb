@@ -2,6 +2,7 @@ class SalesController < ApplicationController
   load_and_authorize_resource
 
   def create
+    @sale.created_at = Johan::DateTime.new params[:sale][:created_at] if params[:sale][:created_at]
     if @sale.save
       session[:preferred_unit] = @sale.unit 
       session[:preferred_date] = @sale.created_at 
@@ -14,6 +15,7 @@ class SalesController < ApplicationController
       else
         @familiar = @sale.familiar
         @hash = @familiar.regulated_sale_values_freq
+        @interval_hash = @familiar.regulated_sale_values_freq_per_day
         render 'familiars/show' 
       end
     end

@@ -5,6 +5,11 @@ class FamiliarsController < ApplicationController
     date = session[:preferred_date] || Date.today
     @sale = @familiar.sales.new(value:0,unit:'Mandrake',created_at:date)
     @hash = @familiar.regulated_sale_values_freq
+  
+    sales = @familiar.sales.order(:created_at)
+    interval = Johan::Date.interval sales.map(&:created_at) 
+    @interval_hash = {}
+    interval.each{|date| @interval_hash[date] = Johan::Math.median(sales.select{|sale| sale.created_at < date.end_of_day}.last(10).map(&:regulated_value))}
   end
 
   def index
