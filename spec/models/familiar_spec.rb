@@ -34,6 +34,24 @@ describe Familiar do
 
   # ------------------ METHODS ----------------
 
+  describe ".regulated_sale_values" do
+    let(:fam){ create :familiar }
+    before do
+      create :sale, familiar_id:fam.id, value:11, created_at:Date.today
+      create :sale, familiar_id:fam.id, value:10, created_at:Date.yesterday
+    end
+
+    context "all values" do
+      subject{ fam.regulated_sale_values }
+      it{ should eq [10,11] }
+    end
+
+    context "only the last" do
+      subject{ fam.regulated_sale_values(1) }
+      it{ should eq [11] }
+    end
+  end
+
   describe ".median" do
     let(:familiar){ stub_model Familiar }
 
@@ -42,13 +60,18 @@ describe Familiar do
       specify{ familiar.median.should eq 0 }
     end
 
-    context "even" do
-      before{ familiar.should_receive(:regulated_sale_values).and_return [10,30,10,20]}
-      specify{ familiar.median.should eq 20 }
+    context "even number of sales" do
+      before do
+        familiar.should_receive(:regulated_sale_values).and_return [10,30,10,20]
+      end
+      specify{ familiar.median.should eq 20.0 }
     end
 
     context "odd" do
-      before{ familiar.should_receive(:regulated_sale_values).and_return [10,30,20]}
+      before do
+        familiar.should_receive(:regulated_sale_values).and_return [20,10,30]
+        familiar.should_receive(:sales).and_return [20,10,30]
+      end
       specify{ familiar.median.should eq 20 }
     end
   end 

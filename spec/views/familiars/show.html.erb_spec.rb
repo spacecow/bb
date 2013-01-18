@@ -17,6 +17,6 @@ describe 'familiars/show' do
   it{ should have_selector 'div.median' }
   it{ should have_selector 'div.sale.new' }
   it{ should have_selector 'div#total_mandrake_container' }
-  it{ should have_selector 'div#per_day_mandrake_container' }
+  it{ should_not have_selector 'div#per_day_mandrake_container' }
   it{ should have_selector 'div.sales' }
 end

@@ -19,14 +19,14 @@ class Familiar < ActiveRecord::Base
     arr 
   end
 
-  def median
-    sorted = regulated_sale_values.sort    
-    return 0 if sorted.empty?
-    sorted[sorted.count/2]
+  def median(len = sales.length)
+    values = regulated_sale_values(len).sort    
+    return 0 if values.empty?
+    values[values.count/2]
   end
   
-  def regulated_sale_values
-    sales.map(&:regulated_value)
+  def regulated_sale_values(len = sales.length)
+    sales.order(:created_at).last(len).map(&:regulated_value)
   end
   def regulated_sale_values_freq(delete_last=true)
     arr = regulated_sale_values

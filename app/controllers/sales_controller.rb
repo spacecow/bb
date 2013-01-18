@@ -15,7 +15,7 @@ class SalesController < ApplicationController
       else
         @familiar = @sale.familiar
         @hash = @familiar.regulated_sale_values_freq
-        @interval_hash = @familiar.regulated_sale_values_freq_per_day
+        #@interval_hash = @familiar.regulated_sale_values_freq_per_day
         render 'familiars/show' 
       end
     end

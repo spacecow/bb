@@ -5,7 +5,7 @@ FactoryGirl.define do
 
   factory :sale do
     familiar
-    unit_mask 0
+    unit_mask 1
     value 10
   end
 end

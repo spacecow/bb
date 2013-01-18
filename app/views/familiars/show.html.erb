@@ -9,10 +9,9 @@
   </div>
 
   <div class="right" style="width: 800px">
-    <%= presenter.median %>
+    <%= presenter.median(20) %>
     <%= presenter.new_sale(@sale) %>
     <div id="total_mandrake_container" style="float:left; width:560px; height:300px;"></div>
-    <div id="per_day_mandrake_container" style="float:left; width:560px; height:300px;"></div>
 
     <% end %>
 
@@ -39,6 +38,7 @@
           }],
         });
 
+<% if false %>
         new Highcharts.Chart({
           chart: {
             renderTo: "per_day_mandrake_container",
@@ -66,6 +66,7 @@
             data: <%= @interval_hash.keys.sort.map{|e| @interval_hash[e]} %>
           }],
         });
+<% end %>
       });
     </script>
   </div>

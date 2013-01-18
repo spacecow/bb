@@ -48,10 +48,10 @@ class FamiliarPresenter < BasePresenter
     end
   end
 
-  def median
+  def median(len)
     h.content_tag :div, class:'median' do
       "Median: " +
-      familiar.median.to_s
+      familiar.median(len).to_s
     end
   end
 

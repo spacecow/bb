@@ -129,7 +129,7 @@ describe FamiliarPresenter do
   describe ".median" do
     before{ familiar.should_receive(:median).and_return '40'}
 
-    subject{ Capybara.string(presenter.median )}
+    subject{ Capybara.string(presenter.median(1) )}
     its(:text){ should eq 'Median: 40' }
   end
 
