@@ -114,10 +114,13 @@ describe FamiliarPresenter do
   end
 
   describe ".name" do
-    before{ familiar.should_receive(:name).and_return 'Odin' }
+    before do
+      familiar.should_receive(:name).and_return 'Odin'
+      familiar.should_receive(:last_sale_created_at).and_return 1.hour.ago 
+    end
     let(:rendering){ Capybara.string(presenter.name)}
     subject{ rendering }
-    its(:text){ should eq 'Odin' }
+    its(:text){ should eq 'Odin (Data: about 1 hour ago)' }
 
     context "link" do
       subject{ rendering.find('a') }

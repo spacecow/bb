@@ -52,6 +52,21 @@ describe Familiar do
     end
   end
 
+  describe ".last_sale_created_at" do
+    let(:familiar){ stub_model Familiar }
+  
+    context "without sales" do
+      before{ familiar.should_receive(:sales).and_return [] }
+      specify{ familiar.last_sale_created_at.should be_nil }
+    end     
+
+    context "with sales" do
+      let(:sale){ mock_model Sale, created_at:1.hour.ago }
+      before{ familiar.should_receive(:sales).and_return [sale] }
+      specify{ familiar.last_sale_created_at.should be_within(1.second).of(1.hour.ago) }
+    end
+  end
+
   describe ".median" do
     let(:familiar){ stub_model Familiar }
 

@@ -56,8 +56,9 @@ class FamiliarPresenter < BasePresenter
   end
 
   def name
+    date = familiar.last_sale_created_at
     h.content_tag :div, class:'name' do
-      h.link_to familiar.name, familiar
+      "#{h.link_to(familiar.name, familiar)} (Data: #{date ? h.time_ago_in_words(date)+" ago" : 'no data'})".html_safe
     end
   end
 
