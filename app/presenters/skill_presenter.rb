@@ -15,9 +15,9 @@ class SkillPresenter < BasePresenter
     end
   end
 
-  def familiars
+  def familiars len
     h.content_tag :div, class:'familiars' do
-      h.render 'familiars/familiars', familiars:skill.familiars, sort:'name'
+      h.render 'familiars/familiars', familiars:skill.familiars, sort:'name', len:len
     end
   end
 end

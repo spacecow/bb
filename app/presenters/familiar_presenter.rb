@@ -12,25 +12,25 @@ class FamiliarPresenter < BasePresenter
     end
   end
 
-  def familiars(familiars, tag, sort)
+  def familiars(familiars, tag, sort, len)
     assert_include [:div,:ul], tag
     if tag == :div
       h.content_tag :div, class:'familiars' do
-        h.render 'familiars/familiars', familiars:familiars, sort:sort if familiars.present?
+        h.render 'familiars/familiars', familiars:familiars, sort:sort, len:len if familiars.present?
       end
     elsif tag == :ul
       if sort == 'median'
-        hash = familiars.group_by(&:median)
+        hash = familiars.group_by{|e| e.median len}
         h.content_tag :ul, class:'familiars' do
           hash.keys.sort.reverse.map do |median|
             "<li class='median'>#{median}</li>" +
-            h.render(hash[median])
+            h.render(hash[median],len:len)
           end.join.html_safe
         end
       else
         arr = familiars.sort_by(&sort.to_sym).reverse
         h.content_tag :ul, class:'familiars' do
-          h.render(arr)
+          h.render arr, len:len
         end
       end
     end
@@ -49,16 +49,19 @@ class FamiliarPresenter < BasePresenter
   end
 
   def median(len)
+    date = familiar.last_sale_created_at
     h.content_tag :div, class:'median' do
       "Median: " +
-      familiar.median(len).to_s
+      familiar.median(len).to_s + " (" +
+      (date ? h.time_ago_in_words(date)+" ago" : "no data") + ")"
     end
   end
 
   def name
-    date = familiar.last_sale_created_at
+    #date = familiar.last_sale_created_at
     h.content_tag :div, class:'name' do
-      "#{h.link_to(familiar.name, familiar)} (Data: #{date ? h.time_ago_in_words(date)+" ago" : 'no data'})".html_safe
+      h.link_to familiar.name, familiar
+      #"#{h.link_to(familiar.name, familiar)} (Data: #{date ? h.time_ago_in_words(date)+" ago" : 'no data'})".html_safe
     end
   end
 

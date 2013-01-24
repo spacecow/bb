@@ -18,7 +18,8 @@ class FamiliarsController < ApplicationController
     @sale = Sale.new(unit:'Mandrake', created_at:date)
     @sort = params[:sort] || 'median'
     respond_to do |f|
-      f.html{ @familiars = @familiars.sort_by(&:median).reverse }
+      f.html
+      #f.html{ @familiars = @familiars.sort_by(&:median).reverse }
       f.json{render json:@familiars.tokens(params[:q])}
     end  
   end

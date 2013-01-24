@@ -73,11 +73,11 @@ describe FamiliarPresenter do
   describe "#familiars" do
     context "without familiars" do
       context "section" do
-        subject{ Capybara.string(presenter.familiars([],:div,'median')) }
+        subject{ Capybara.string(presenter.familiars([],:div,'median',20)) }
         its(:text){ should be_blank }
       end
       context "list" do
-        subject{ Capybara.string(presenter.familiars({},:ul,'median')) }
+        subject{ Capybara.string(presenter.familiars({},:ul,'median',20)) }
         its(:text){ should be_blank }
       end
     end
@@ -86,7 +86,7 @@ describe FamiliarPresenter do
       let(:familiars){[stub_model(Familiar)]} 
 
       context "section" do
-        subject{ Capybara.string(presenter.familiars(familiars,:div,'median'))}
+        subject{ Capybara.string(presenter.familiars familiars,:div,'median',20)}
         it{ should_not have_selector 'tr th'}
         it{ should have_selector 'h2' }
         it{ should have_selector 'ul.familiars' } 
@@ -94,7 +94,7 @@ describe FamiliarPresenter do
 
       context "list" do
         context "sorted on median" do
-          subject{ Capybara.string(presenter.familiars familiars,:ul,'median')}
+          subject{ Capybara.string(presenter.familiars familiars,:ul,'median',20)}
           it{ should_not have_selector 'tr th'}
           it{ should_not have_selector 'h2' }
           it{ should have_selector 'li.familiar.thumb', count:1 } 
@@ -103,7 +103,7 @@ describe FamiliarPresenter do
 
         context "sorted on maxagi" do
           let(:familiars){[stub_model(Familiar)]} 
-          subject{ Capybara.string(presenter.familiars familiars, :ul, :maxagi)}
+          subject{ Capybara.string(presenter.familiars familiars,:ul,:maxagi,20)}
           it{ should_not have_selector 'tr th'}
           it{ should_not have_selector 'h2' }
           it{ should have_selector 'li.familiar.thumb', count:1 } 
@@ -116,11 +116,11 @@ describe FamiliarPresenter do
   describe ".name" do
     before do
       familiar.should_receive(:name).and_return 'Odin'
-      familiar.should_receive(:last_sale_created_at).and_return 1.hour.ago 
+      familiar.should_not_receive(:last_sale_created_at)
     end
     let(:rendering){ Capybara.string(presenter.name)}
     subject{ rendering }
-    its(:text){ should eq 'Odin (Data: about 1 hour ago)' }
+    its(:text){ should eq 'Odin' }
 
     context "link" do
       subject{ rendering.find('a') }
@@ -130,10 +130,12 @@ describe FamiliarPresenter do
   end
 
   describe ".median" do
-    before{ familiar.should_receive(:median).and_return '40'}
-
+    before do
+      familiar.should_receive(:median).and_return '40'
+      familiar.should_receive(:last_sale_created_at).and_return 1.hour.ago
+    end
     subject{ Capybara.string(presenter.median(1) )}
-    its(:text){ should eq 'Median: 40' }
+    its(:text){ should eq 'Median: 40 (about 1 hour ago)' }
   end
 
   describe ".sales_count" do
