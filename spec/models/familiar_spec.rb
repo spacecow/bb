@@ -67,6 +67,39 @@ describe Familiar do
     end
   end
 
+  describe ".max_damage" do
+    let(:familiar){ stub_model Familiar }
+    subject{ familiar.max_damage }
+
+    context "without skills" do
+      before{ familiar.should_receive(:familiars_skills).and_return [] }
+      it{ should eq 0 }
+    end
+
+    context "with skill" do
+      let(:fs){ mock_model FamiliarsSkill }
+      before do
+        fs.should_receive(:max_damage).and_return 3000
+        familiar.should_receive(:familiars_skills).and_return [fs]
+      end
+      it{ should eq 3000 }
+    end
+  end
+
+  describe ".max_stat" do
+    context 'nil' do
+      let(:familiar){ stub_model Familiar }
+      subject{ familiar.max_stat nil }
+      it{ should eq 0 } 
+    end
+
+    context 'atk' do
+      let(:familiar){ stub_model Familiar, maxatk:3000 }
+      subject{ familiar.max_stat 'atk' }
+      it{ should eq 3000 } 
+    end
+  end
+
   describe ".median" do
     let(:familiar){ stub_model Familiar }
 

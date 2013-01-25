@@ -16,7 +16,7 @@ class FamiliarsController < ApplicationController
     @familiar = Familiar.new
     date = session[:preferred_date] || Date.today
     @sale = Sale.new(unit:'Mandrake', created_at:date)
-    @sort = params[:sort] || 'median'
+    @sort = params[:sort] || 'max_damage'
     respond_to do |f|
       f.html
       #f.html{ @familiars = @familiars.sort_by(&:median).reverse }
@@ -49,7 +49,10 @@ class FamiliarsController < ApplicationController
           skill_infos.each do |info|
             skill = Skill.find_or_create_by_name(info[0]) 
             skill.description = info[1]
-            skill.note = info[2]
+            skill.kind = info[2]
+            skill.modifier = info[3]
+            skill.status = info[4]
+            skill.target = info[5]
             skill.save 
             begin
               @familiar.skills << skill

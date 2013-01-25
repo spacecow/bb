@@ -73,11 +73,11 @@ describe FamiliarPresenter do
   describe "#familiars" do
     context "without familiars" do
       context "section" do
-        subject{ Capybara.string(presenter.familiars([],:div,'median',20)) }
+        subject{ Capybara.string(presenter.familiars([],:div,'max_damage',20)) }
         its(:text){ should be_blank }
       end
       context "list" do
-        subject{ Capybara.string(presenter.familiars({},:ul,'median',20)) }
+        subject{ Capybara.string(presenter.familiars({},:ul,'max_damage',20)) }
         its(:text){ should be_blank }
       end
     end
@@ -86,7 +86,7 @@ describe FamiliarPresenter do
       let(:familiars){[stub_model(Familiar)]} 
 
       context "section" do
-        subject{ Capybara.string(presenter.familiars familiars,:div,'median',20)}
+        subject{ Capybara.string(presenter.familiars familiars,:div,'max_damage',20)}
         it{ should_not have_selector 'tr th'}
         it{ should have_selector 'h2' }
         it{ should have_selector 'ul.familiars' } 
@@ -126,6 +126,34 @@ describe FamiliarPresenter do
       subject{ rendering.find('a') }
       its(:text){ should eq 'Odin' }
       specify{ subject[:href].should eq familiar_path(familiar)}
+    end
+  end
+
+  describe ".max_damage" do
+    subject{ Capybara.string(presenter.max_damage)}
+
+    context "without skill" do
+      before{ familiar.should_receive(:familiars_skills).and_return [] }
+      its(:text){ should be_blank }
+    end
+
+    context "with boost skill" do
+      let(:fs){ mock_model FamiliarsSkill }
+      before do
+        fs.should_receive(:kind).and_return 'Opening'
+        familiar.should_receive(:familiars_skills).and_return [fs]
+      end
+      its(:text){ should be_blank }
+    end
+
+    context "with attack skill" do
+      let(:fs){ mock_model FamiliarsSkill}
+      before do
+        fs.should_receive(:kind).and_return 'Attack'
+        fs.should_receive(:max_damage).and_return '4500'
+        familiar.should_receive(:familiars_skills).and_return [fs]
+      end
+      its(:text){ should eq "Max damage: 4500" }
     end
   end
 

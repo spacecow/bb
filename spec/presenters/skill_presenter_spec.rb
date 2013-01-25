@@ -17,18 +17,4 @@ describe SkillPresenter do
       its(:text){ should eq 'Description: many flashes' } 
     end
   end
-
-  describe ".note" do
-    subject{Capybara.string presenter.note}
-
-    context "without notes" do
-      before{ skill.should_receive(:note).and_return nil }
-      its(:text){ should be_blank } 
-    end
-
-    context "with notes" do
-      before{ skill.should_receive(:note).and_return 'no additional data' }
-      its(:text){ should eq 'Note: no additional data' } 
-    end
-  end
 end

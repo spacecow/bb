@@ -11,7 +11,7 @@ class Familiar < ActiveRecord::Base
 
   validates :name, presence:true, uniqueness:true
 
-  ATTRIBUTES = [['Mandrake value','median'],['Max HP', 'maxhp'],['Max ATK', 'maxatk'],['Max DEF', 'maxdef'],['Max WIS', 'maxwis'],['Max AGI', 'maxagi']]
+  ATTRIBUTES = [['Max damage','max_damage'],['Max HP', 'maxhp'],['Max ATK', 'maxatk'],['Max DEF', 'maxdef'],['Max WIS', 'maxwis'],['Max AGI', 'maxagi']]
 
   def done_sales
     arr = sales
@@ -22,6 +22,16 @@ class Familiar < ActiveRecord::Base
   def last_sale_created_at
     last_sale = sales.last
     last_sale ? last_sale.created_at : nil 
+  end
+
+  def max_damage
+    arr = familiars_skills.map(&:max_damage)
+    arr.empty? ? 0 : arr.max
+  end
+
+  def max_stat(stat)
+    return 0 if stat.nil?
+    send "max#{stat}"
   end
 
   def median(len = sales.length)

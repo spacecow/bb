@@ -11,6 +11,6 @@ describe "skills/show" do
   subject{ Capybara.string(rendered) }
   it{ should have_selector 'h1', text:'Flash of Rage' }
   it{ should have_selector 'div.description' }
-  it{ should have_selector 'div.note' }
+  it{ should_not have_selector 'div.note' }
   it{ should have_selector 'div.familiars' }
 end

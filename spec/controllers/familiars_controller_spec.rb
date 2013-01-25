@@ -22,7 +22,7 @@ describe FamiliarsController do
 
     context "skills" do
       before do
-        Wiki.should_receive(:skill_infos).and_return [['Flash of Rage', 'Call down six random lightning bolts on foes.', 'no additional info']]
+        Wiki.should_receive(:skill_infos).and_return [['Flash of Rage', 'Call down six random lightning bolts on foes.', 'Attack', 0.9, 'wis', '6 Foes']]
         put :update, id:familiar.id, focus: :skills
       end
 
@@ -36,7 +36,10 @@ describe FamiliarsController do
         subject{ Skill.last }
         its(:name){ should eq 'Flash of Rage' }
         its(:description){ should eq 'Call down six random lightning bolts on foes.' }
-        its(:note){ should eq 'no additional info' }
+        its(:kind){ should eq 'Attack' }
+        its(:modifier){ should eq 0.9 }
+        its(:status){ should eq 'wis' }
+        its(:target){ should eq '6 Foes' }
       end
     end
   end

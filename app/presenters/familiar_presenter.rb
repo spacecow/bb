@@ -48,6 +48,13 @@ class FamiliarPresenter < BasePresenter
     end
   end
 
+  def max_damage
+    arr = familiar.familiars_skills.select{|e| e.kind == 'Attack' }
+    h.content_tag :div, class:%w(max damage).join(' ') do
+      "Max damage: #{arr.map(&:max_damage).join(', ')}" if arr.present?
+    end
+  end
+
   def median(len)
     date = familiar.last_sale_created_at
     h.content_tag :div, class:'median' do
@@ -58,10 +65,8 @@ class FamiliarPresenter < BasePresenter
   end
 
   def name
-    #date = familiar.last_sale_created_at
     h.content_tag :div, class:'name' do
       h.link_to familiar.name, familiar
-      #"#{h.link_to(familiar.name, familiar)} (Data: #{date ? h.time_ago_in_words(date)+" ago" : 'no data'})".html_safe
     end
   end
 
@@ -92,7 +97,7 @@ class FamiliarPresenter < BasePresenter
 
   def skills
     h.content_tag :div, class:'skills' do
-      "#{h.pl(:skill)}: #{familiar.skills.map{|e| h.link_to e.name,e, 'data-tip' => "#{e.description} #{e.note}"}.join(', ').html_safe}".html_safe
+      "#{h.pl(:skill)}: #{familiar.skills.map{|e| h.link_to e.name,e, 'data-tip' => "#{e.description} #{e.modifier}*#{e.status}"}.join(', ').html_safe}".html_safe
     end
   end
 

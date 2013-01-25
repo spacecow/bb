@@ -49,20 +49,51 @@ describe Wiki do
     end
   end
 
+  describe "odin skill attributes" do
+    let(:doc){ Nokogiri::HTML(open 'spec/data/Category:Flash_of_Rage.html') }
+
+    describe "skill_kind" do
+      subject{ Wiki.skill_kind(doc) }
+      it{ should eq 'Attack' }
+    end
+
+    describe "skill_modifier" do
+      subject{ Wiki.skill_modifier(doc) }
+      it{ should eq 0.9 }
+    end
+
+    describe "skill_status" do
+      subject{ Wiki.skill_status(doc) }
+      it{ should eq 'wis' }
+    end
+
+    describe "skill_target" do
+      subject{ Wiki.skill_target(doc) }
+      it{ should eq '6 Foes' }
+    end
+
+    describe "skill_infos" do
+      describe "one skill" do
+        subject{ Wiki.skill_info(doc) }
+        it{ should eq ['Flash of Rage', 'Call down six random lightning bolts on foes.', 'Attack', 0.9, 'wis', '6 Foes'] }
+      end
+    end
+  end
+
+  describe "zeku skill attributes" do
+    let(:doc){ Nokogiri::HTML(open 'spec/data/Category:Blitz_Assault.html') }
+    describe "skill_infos" do
+      describe "one skill" do
+        subject{ Wiki.skill_info(doc) }
+        it{ should eq ['Blitz Assault', 'Deal incredible damage to one foe, regardless of position.', 'Attack', 4.0, 'atk', '1 Foe'] }
+      end
+    end
+  end
+
   describe "skill_infos", wiki:true do
-    describe "one skill" do
-      subject{ Wiki.skill_infos('Odin') }
-      it{ should eq [['Flash of Rage', 'Call down six random lightning bolts on foes.', '']] }
-    end
-
-    describe "infobox" do
-      subject{ Wiki.skill_infos('Zeku') }
-      it{ should eq [['Blitz Assault', 'Deal incredible damage to one foe, regardless of position.', '400% (ATK)']] }
-    end
-
     describe "two skills" do
       subject{ Wiki.skill_infos('Galahad, Drake Knight') }
-      it{ should eq [['Grace of Winds', 'Raise AGI of self and adjacent familiars.', 'The Grace of Winds ability is WIS based. Amount of AGI increase is equal to 50% of caster\'s WIS.'],['Whirlwind', 'Deal heavy AGI-based damage to three foes.', 'The Whirlwind ability is AGI based.']] }
+      it{ should eq [['Grace of Winds', 'Raise AGI of self and adjacent familiars', 'Opening', 0.5, 'wis', '3 Allies Self & Adjacent'],['Whirlwind', 'Deal heavy AGI-based damage to three foes.', 'Attack', 2.5, 'agi', '3 Foes']] }
     end
   end
 end
